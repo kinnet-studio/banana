@@ -4,17 +4,18 @@
  *
  * @module timetable/timetable-manager
  */
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { PlatformMigrationMap } from 'track-layout';
+import type { JointDirectionPreferenceMap } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+
 import type { SignalStateEngine } from '@/signals/signal-state-engine';
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
-import type { PlatformMigrationMap } from '@/stations/track-aligned-platform-migration';
 import type { Train } from '@/trains/formation';
 import {
     DefaultJointDirectionManager,
     type JointDirectionManager,
 } from '@/trains/input-state-machine/train-kmt-state-machine';
-import type { JointDirectionPreferenceMap } from '@/trains/tracks/joint-direction-preference-map';
-import type { TrackGraph } from '@/trains/tracks/track';
 import type { TrainManager } from '@/trains/train-manager';
 
 import { AutoDriver } from './auto-driver';

@@ -1,14 +1,21 @@
-import type { SerializedPlatformBufferStore } from '@/resources';
-import type { ResourceCounts } from '@/resources';
-import type { SerializedSignalData } from '@/signals/types';
-import { StationManager } from '@/stations/station-manager';
-import { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
+import { StationManager } from 'track-layout';
+import { TrackAlignedPlatformManager } from 'track-layout';
 import {
     type PlatformMigrationMap,
     computeDualSpineMidline,
-} from '@/stations/track-aligned-platform-migration';
-import type { SerializedTrackAlignedPlatformData } from '@/stations/track-aligned-platform-types';
-import type { SerializedStationData } from '@/stations/types';
+} from 'track-layout';
+import type { SerializedTrackAlignedPlatformData } from 'track-layout';
+import type { SerializedStationData } from 'track-layout';
+import {
+    JointDirectionPreferenceMap,
+    type SerializedJointDirectionPreference,
+} from 'track-layout';
+import type { SerializedTrackData } from 'track-layout';
+import { validateSerializedTrackData } from 'track-layout';
+
+import type { SerializedPlatformBufferStore } from '@/resources';
+import type { ResourceCounts } from '@/resources';
+import type { SerializedSignalData } from '@/signals/types';
 import {
     TerrainData,
     validateSerializedTerrainData,
@@ -18,12 +25,6 @@ import { TimetableManager } from '@/timetable';
 import type { SerializedTimetableData } from '@/timetable/types';
 import { type CarTemplate, validateCarDefinition } from '@/trains/car-template';
 import type { FormationTemplate } from '@/trains/formation-template';
-import {
-    JointDirectionPreferenceMap,
-    type SerializedJointDirectionPreference,
-} from '@/trains/tracks/joint-direction-preference-map';
-import type { SerializedTrackData } from '@/trains/tracks/types';
-import { validateSerializedTrackData } from '@/trains/tracks/types';
 import type { SerializedTrainData } from '@/trains/train-serialization';
 import {
     deserializeTrainData,

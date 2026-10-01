@@ -16,15 +16,15 @@ import {
 import { BCurve } from '@ue-too/curve';
 import { type Point, directionAlignedToTangent } from '@ue-too/math';
 import { PointCal } from '@ue-too/math';
-
-import { PreviewCurveCalculator, TENSION_STEP } from '../tracks/new-joint';
-import { TrackGraph } from '../tracks/track';
+import { TrackGraph } from 'track-layout';
 import {
     ELEVATION,
     ProjectionPositiveResult,
     ProjectionResult,
     TrackSegmentDrawData,
-} from '../tracks/types';
+} from 'track-layout';
+
+import { PreviewCurveCalculator, TENSION_STEP } from '../tracks/new-joint';
 import { LayoutContext } from './layout-kmt-state-machine';
 import { NewJointType } from './types';
 
@@ -780,6 +780,21 @@ export class CurveCreationEngine
                 this.cancelCurrentCurve();
                 return null;
             }
+        }
+
+        if (
+            (this._newStartJoint.type === 'branchCurve' &&
+                this._trackGraph.isSegmentProtected(
+                    this._newStartJoint.constraint.curve
+                )) ||
+            (this._newEndJoint.type === 'branchCurve' &&
+                this._trackGraph.isSegmentProtected(
+                    this._newEndJoint.constraint.curve
+                ))
+        ) {
+            console.warn('cannot branch from a segment under a platform');
+            this.cancelCurrentCurve();
+            return null;
         }
 
         // END OF VALIDATION PIPELINE

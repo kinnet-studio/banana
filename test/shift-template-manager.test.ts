@@ -1,5 +1,6 @@
-import { StationManager } from '../src/stations/station-manager';
-import { TrackAlignedPlatformManager } from '../src/stations/track-aligned-platform-manager';
+import { StationManager } from 'track-layout';
+import { TrackAlignedPlatformManager } from 'track-layout';
+
 import {
     type ShiftTemplateChangeEvent,
     ShiftTemplateManager,

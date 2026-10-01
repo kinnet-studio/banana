@@ -4,10 +4,9 @@
  * @module timetable/shift-template-manager
  */
 import { Observable, SynchronousObservable } from '@ue-too/board';
-
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
-import type { PlatformMigrationMap } from '@/stations/track-aligned-platform-migration';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { PlatformMigrationMap } from 'track-layout';
 
 import {
     type DayMask,

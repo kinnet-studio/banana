@@ -1,7 +1,8 @@
+import type { TrackGraph } from 'track-layout';
+import type { TrackJoint } from 'track-layout';
+
 import { TimetableJointDirectionManager } from '../src/timetable/timetable-joint-direction-manager';
 import type { RouteJointStep } from '../src/timetable/types';
-import type { TrackGraph } from '../src/trains/tracks/track';
-import type { TrackJoint } from '../src/trains/tracks/types';
 
 // ---------------------------------------------------------------------------
 // Helpers

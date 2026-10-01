@@ -1,8 +1,8 @@
 import { BCurve } from '@ue-too/curve';
 import { describe, expect, it } from 'bun:test';
+import type { TrackSegmentDrawData } from 'track-layout';
 
 import { computeTunnelEntranceGeometry } from '../src/trains/tracks/tunnel-geometry';
-import type { TrackSegmentDrawData } from '../src/trains/tracks/types';
 
 /** A 100m straight curve along +X. Terrain can be varied along x for crossing tests. */
 const makeStraightCurve = () =>

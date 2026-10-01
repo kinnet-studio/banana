@@ -1,8 +1,8 @@
 import { PointCal } from '@ue-too/math';
+import { TrackSegmentDrawData } from 'track-layout';
 
 import type { TerrainData } from '../../terrain/terrain-data';
 import { ballastHalfWidth } from './geometry-utils';
-import { TrackSegmentDrawData } from './types';
 
 export type TunnelEntranceEdgePoint = { x: number; y: number };
 

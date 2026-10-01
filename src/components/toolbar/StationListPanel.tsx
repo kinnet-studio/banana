@@ -1,6 +1,11 @@
 import type { CameraRig } from '@ue-too/board';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { Platform, Station } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+import { ELEVATION } from 'track-layout';
 
 import {
     Check,
@@ -15,12 +20,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { DraggablePanel } from '@/components/ui/draggable-panel';
 import { Separator } from '@/components/ui/separator';
-import type { StationManager } from '@/stations/station-manager';
 import type { StationRenderSystem } from '@/stations/station-render-system';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
-import type { Platform, Station } from '@/stations/types';
-import type { TrackGraph } from '@/trains/tracks/track';
-import { ELEVATION } from '@/trains/tracks/types';
 
 /** Max distance (world units) from station position to be a reassignment candidate. */
 const NEARBY_RADIUS = 50;

@@ -6,15 +6,15 @@ import {
 } from '@ue-too/board';
 import { BCurve } from '@ue-too/curve';
 import type { Point } from '@ue-too/math';
-
-import { computeDuplicateGeometry } from '../tracks/duplicate-geometry';
-import { computeParallelSpacing } from '../tracks/parallel-spacing';
-import { TrackGraph } from '../tracks/track';
+import { computeParallelSpacing } from 'track-layout';
+import { TrackGraph } from 'track-layout';
 import {
     ELEVATION,
     TrackSegmentDrawData,
     TrackSegmentWithElevation,
-} from '../tracks/types';
+} from 'track-layout';
+
+import { computeDuplicateGeometry } from '../tracks/duplicate-geometry';
 import { DuplicateToSideContext } from './duplicate-to-side-state-machine';
 
 type PreviewDrawData = {

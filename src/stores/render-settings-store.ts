@@ -1,7 +1,6 @@
+import type { TrackStyle } from 'track-layout';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-
-import type { TrackStyle } from '@/trains/tracks/types';
 
 type RenderSettingsState = {
     sunAngle: number;

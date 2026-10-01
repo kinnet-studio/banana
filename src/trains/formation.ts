@@ -1,4 +1,5 @@
 import { Point, approximately } from '@ue-too/curve';
+import { SegmentSplitInfo, TrackGraph } from 'track-layout';
 
 import { Car, TrainUnit, generateCarId, generateFormationId } from './cars';
 import {
@@ -6,7 +7,6 @@ import {
     WalkBackJointDirectionManager,
     flipDirection,
 } from './input-state-machine/train-kmt-state-machine';
-import { SegmentSplitInfo, TrackGraph } from './tracks/track';
 
 // export type Car = {
 //     id: number;

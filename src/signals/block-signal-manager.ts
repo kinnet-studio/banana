@@ -7,8 +7,8 @@
  *
  * @module signals/block-signal-manager
  */
-import type { TrackGraph } from '@/trains/tracks/track';
-import type { SegmentSplitInfo } from '@/trains/tracks/track';
+import type { TrackGraph } from 'track-layout';
+import type { SegmentSplitInfo } from 'track-layout';
 
 import type {
     Block,

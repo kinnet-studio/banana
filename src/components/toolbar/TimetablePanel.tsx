@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
 import { Download, Plus, Trash2, Upload, X } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
@@ -13,8 +16,6 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useBananaApp } from '@/contexts/pixi';
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
 import {
     MS_PER_DAY,
     MS_PER_HOUR,
@@ -30,7 +31,6 @@ import type {
 } from '@/timetable/types';
 import { DayOfWeek, type ScheduledStop } from '@/timetable/types';
 import type { FormationManager } from '@/trains/formation-manager';
-import type { TrackGraph } from '@/trains/tracks/track';
 
 import { downloadJson, uploadJson } from './utils';
 

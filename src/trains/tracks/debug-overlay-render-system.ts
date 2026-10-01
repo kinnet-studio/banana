@@ -5,15 +5,14 @@ import {
 } from '@ue-too/board';
 import { PointCal } from '@ue-too/math';
 import { Container, Graphics, Text } from 'pixi.js';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import { findPresetByWidth } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
 import type { ProximityDetector } from '@/trains/proximity-detector';
 import type { PlacedTrainEntry } from '@/trains/train-manager';
 import { WorldRenderSystem } from '@/world-render-system';
-
-import { findPresetByWidth } from './gauge-presets';
-import type { TrackGraph } from './track';
 
 /** Base radius of the circle (world units); effective size = this / zoomLevel for constant screen size. */
 const LABEL_CIRCLE_RADIUS = 8;

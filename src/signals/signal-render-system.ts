@@ -10,10 +10,10 @@
  * @module signals/signal-render-system
  */
 import { Container, Graphics, Sprite, Texture } from 'pixi.js';
+import type { TrackGraph } from 'track-layout';
+import { ELEVATION } from 'track-layout';
 
 import type { TrackTextureRenderer } from '@/trains/tracks/render-system';
-import type { TrackGraph } from '@/trains/tracks/track';
-import { ELEVATION } from '@/trains/tracks/types';
 import type { WorldRenderSystem } from '@/world-render-system';
 
 import type { BlockSignalManager } from './block-signal-manager';

@@ -11,6 +11,11 @@ import {
     useSyncExternalStore,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StationManager } from 'track-layout';
+import type { SerializedStationData } from 'track-layout';
+import { ELEVATION } from 'track-layout';
+import type { SerializedTrackData } from 'track-layout';
+import { validateSerializedTrackData } from 'track-layout';
 import { useShallow } from 'zustand/react/shallow';
 
 import {
@@ -54,8 +59,6 @@ import {
     serializeSceneData,
     validateSerializedSceneData,
 } from '@/scene-serialization';
-import { StationManager } from '@/stations/station-manager';
-import type { SerializedStationData } from '@/stations/types';
 import type { StoredCarDefinition } from '@/storage';
 import { useGaugeStore } from '@/stores/gauge-store';
 import { useRenderSettingsStore } from '@/stores/render-settings-store';
@@ -77,9 +80,6 @@ import {
 import type { CarType } from '@/trains/cars';
 import type { ThrottleSteps } from '@/trains/formation';
 import type { FormationTemplate } from '@/trains/formation-template';
-import { ELEVATION } from '@/trains/tracks/types';
-import type { SerializedTrackData } from '@/trains/tracks/types';
-import { validateSerializedTrackData } from '@/trains/tracks/types';
 import {
     type SerializedTrainData,
     deserializeTrainData,

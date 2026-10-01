@@ -21,9 +21,9 @@ import {
     MeshSimple,
     Texture,
 } from 'pixi.js';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { ELEVATION_VALUES } from 'track-layout';
 
-import { LEVEL_HEIGHT } from '@/trains/tracks/constants';
-import { ELEVATION_VALUES } from '@/trains/tracks/types';
 import type { WorldRenderSystem } from '@/world-render-system';
 
 import { extractContourSegments } from './contour';

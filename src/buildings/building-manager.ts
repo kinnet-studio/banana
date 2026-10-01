@@ -4,9 +4,8 @@ import {
     SynchronousObservable,
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
-
-import { ELEVATION } from '@/trains/tracks/types';
-import { GenericEntityManager } from '@/utils';
+import { ELEVATION } from 'track-layout';
+import { GenericEntityManager } from 'track-layout';
 
 import {
     BUILDING_PRESETS,

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TrackGraph } from 'track-layout';
 
 import { Plus, X } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,6 @@ import type { BlockSignalManager } from '@/signals/block-signal-manager';
 import type { SignalRenderSystem } from '@/signals/signal-render-system';
 import type { SignalStateEngine } from '@/signals/signal-state-engine';
 import type { BlockSegmentEntry, SignalAspect } from '@/signals/types';
-import type { TrackGraph } from '@/trains/tracks/track';
 
 type SignalPanelProps = {
     blockSignalManager: BlockSignalManager;

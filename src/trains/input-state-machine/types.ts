@@ -1,5 +1,4 @@
 import { Point } from '@ue-too/math';
-
 import {
     ELEVATION,
     FlatElevation,
@@ -7,7 +6,7 @@ import {
     ProjectionEdgeResult,
     ProjectionJointResult,
     SlopedElevation,
-} from '../tracks/types';
+} from 'track-layout';
 
 export type NewJointType =
     | BrandNewJoint

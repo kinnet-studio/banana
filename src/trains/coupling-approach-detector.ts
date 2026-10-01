@@ -1,8 +1,9 @@
+import type { TrackGraph } from 'track-layout';
+
 import type { Train, TrainPosition } from './formation';
 import type { OccupancyRegistry } from './occupancy-registry';
 import type { ProximityMatch } from './proximity-detector';
 import { closingSpeed } from './track-arc-utils';
-import type { TrackGraph } from './tracks/track';
 import type { PlacedTrainEntry } from './train-manager';
 
 /**

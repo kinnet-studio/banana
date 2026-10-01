@@ -1,6 +1,7 @@
+import type { TrackGraph } from 'track-layout';
+import type { SegmentSplitInfo } from 'track-layout';
+
 import { BlockSignalManager } from '../src/signals/block-signal-manager';
-import type { TrackGraph } from '../src/trains/tracks/track';
-import type { SegmentSplitInfo } from '../src/trains/tracks/track';
 
 // ---------------------------------------------------------------------------
 // Mock TrackGraph helpers

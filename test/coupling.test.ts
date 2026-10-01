@@ -1,3 +1,5 @@
+import type { TrackGraph } from 'track-layout';
+
 import {
     Car,
     CarType,
@@ -7,7 +9,6 @@ import {
 import { Formation, MAX_FORMATION_DEPTH, Train } from '../src/trains/formation';
 import type { JointDirectionManager } from '../src/trains/input-state-machine/train-kmt-state-machine';
 import type { ProximityMatch } from '../src/trains/proximity-detector';
-import type { TrackGraph } from '../src/trains/tracks/track';
 import { TrainManager } from '../src/trains/train-manager';
 
 const mockTrackGraph = {} as unknown as TrackGraph;

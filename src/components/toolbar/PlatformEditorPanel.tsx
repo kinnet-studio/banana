@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { normalizedToStop, stopToNormalized } from 'track-layout';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { SpineEntry } from 'track-layout';
+import type { StopPosition, TrackDirection } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
 import { Plus, Trash2 } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
@@ -12,16 +18,11 @@ import {
     RESOURCE_TYPES,
     type ResourceTypeId,
 } from '@/resources';
-import {
-    normalizedToStop,
-    stopToNormalized,
-} from '@/stations/arc-length-resolver';
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
-import type { SpineEntry } from '@/stations/track-aligned-platform-types';
-import type { StopPosition, TrackDirection } from '@/stations/types';
 import type { ShiftTemplateManager } from '@/timetable/shift-template-manager';
-import type { TrackGraph } from '@/trains/tracks/track';
+import {
+    findShiftsReferencingIslandStop,
+    findShiftsReferencingTrackAlignedStop,
+} from '@/timetable/stop-position-references';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -326,22 +327,18 @@ export function PlatformEditorPanel({
             // Check for references.
             let refs: { id: string; name: string }[];
             if (target.kind === 'trackAligned') {
-                refs = trackAlignedPlatformManager
-                    .findShiftsReferencingStopPosition(
-                        target.platformId,
-                        stopId,
-                        shiftTemplateManager
-                    )
-                    .map(s => ({ id: s.id, name: s.name }));
+                refs = findShiftsReferencingTrackAlignedStop(
+                    shiftTemplateManager,
+                    target.platformId,
+                    stopId
+                ).map(s => ({ id: s.id, name: s.name }));
             } else {
-                refs = stationManager
-                    .findShiftsReferencingStopPosition(
-                        target.stationId,
-                        target.platformId,
-                        stopId,
-                        shiftTemplateManager
-                    )
-                    .map(s => ({ id: s.id, name: s.name }));
+                refs = findShiftsReferencingIslandStop(
+                    shiftTemplateManager,
+                    target.stationId,
+                    target.platformId,
+                    stopId
+                ).map(s => ({ id: s.id, name: s.name }));
             }
 
             if (refs.length > 0) {

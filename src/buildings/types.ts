@@ -1,6 +1,5 @@
 import type { Point } from '@ue-too/math';
-
-import { ELEVATION } from '@/trains/tracks/types';
+import { ELEVATION } from 'track-layout';
 
 /**
  * Available building shape presets.

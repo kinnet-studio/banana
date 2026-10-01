@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import type { TrackStyle } from 'track-layout';
 
 import {
     Select,
@@ -7,7 +8,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import type { TrackStyle } from '@/trains/tracks/types';
 
 import { GaugeSelector } from './GaugeSelector';
 

@@ -6,6 +6,18 @@ import {
 import { BCurve } from '@ue-too/curve';
 import { Point, PointCal } from '@ue-too/math';
 import { Container, Graphics, MeshSimple, Text, Texture } from 'pixi.js';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { TrackCurveManager } from 'track-layout';
+import {
+    ELEVATION,
+    ELEVATION_MAX,
+    ELEVATION_MIN,
+    ELEVATION_VALUES,
+    ProjectionPositiveResult,
+    TrackSegmentDrawData,
+    TrackSegmentWithCollision,
+} from 'track-layout';
+import type { SegmentStyleChange } from 'track-layout';
 
 import type { TerrainData } from '@/terrain/terrain-data';
 import { clearShadowCache } from '@/utils';
@@ -25,20 +37,8 @@ import {
     DuplicateHighlightState,
     DuplicateToSideEngine,
 } from '../input-state-machine/duplicate-to-side-engine';
-import { LEVEL_HEIGHT } from './constants';
 import { ballastHalfWidth } from './geometry-utils';
-import { TrackCurveManager } from './trackcurve-manager';
 import { computeTunnelEntranceGeometry } from './tunnel-geometry';
-import {
-    ELEVATION,
-    ELEVATION_MAX,
-    ELEVATION_MIN,
-    ELEVATION_VALUES,
-    ProjectionPositiveResult,
-    TrackSegmentDrawData,
-    TrackSegmentWithCollision,
-    TrackStyle,
-} from './types';
 
 /** Zoom level above which detailed track draw data is shown; below this only the bezier curve is drawn. */
 const ZOOM_THRESHOLD_DETAILED_TRACK = 5;
@@ -157,18 +157,6 @@ export class TrackRenderSystem {
 
     /** Whether to show elevation gradient on ballast (vs solid color). */
     private _showElevationGradient: boolean = false;
-
-    /** Current track visual style. */
-    private _trackStyle: TrackStyle = 'ballasted';
-
-    /** Whether newly laid tracks are electrified (catenary poles). */
-    private _electrified: boolean = false;
-
-    /** Total width of the gravel bed foundation in world units. Stamped per track when laid. */
-    private _bedWidth: number = 3;
-
-    /** Whether newly laid tracks will have a bed (gravel foundation below ballast). */
-    private _bed: boolean = false;
 
     /** Catenary pole containers keyed by draw data key. */
     private _catenaryMap: Map<string, Container> = new Map();
@@ -296,12 +284,6 @@ export class TrackRenderSystem {
                 this._onCatenaryPreviewChange.bind(this),
                 { signal: this._abortController.signal }
             );
-            catenaryLayoutEngine.onCommit(
-                payload => {
-                    this.applyCatenary(payload.segmentNumber, payload.side);
-                },
-                { signal: this._abortController.signal }
-            );
         }
 
         this._topLevelContainer.addChild(this._duplicateHighlightGraphics);
@@ -346,6 +328,10 @@ export class TrackRenderSystem {
             this._onRemoveTrackSegment.bind(this),
             { signal: this._abortController.signal }
         );
+        this._trackCurveManager.onSegmentStyleChanged(
+            this._onSegmentStyleChanged.bind(this),
+            { signal: this._abortController.signal }
+        );
 
         this._camera = camera;
         this._textureRenderer = textureRenderer ?? null;
@@ -377,134 +363,48 @@ export class TrackRenderSystem {
         }
     }
 
-    /** Current track visual style. */
-    get trackStyle(): TrackStyle {
-        return this._trackStyle;
-    }
-
-    set trackStyle(style: TrackStyle) {
-        this._trackStyle = style;
-    }
-
-    /** Whether newly laid tracks will have catenary poles. */
-    get electrified(): boolean {
-        return this._electrified;
-    }
-
-    set electrified(value: boolean) {
-        this._electrified = value;
-    }
-
     /**
-     * Apply catenary electrification to an existing track segment on a given side.
-     * Updates all draw data entries belonging to that segment, then rebuilds catenary graphics.
+     * Rebuilds catenary masts for a segment whose style changed in the model
+     * (TrackGraph.setSegmentStyle). The draw data already carries the new
+     * style; only the mast graphics need replacing.
      */
-    applyCatenary(segmentNumber: number, side: 1 | -1): void {
-        // Stamp the canonical segment so serialization picks it up.
-        const segment =
-            this._trackCurveManager.getTrackSegmentWithJoints(segmentNumber);
-        if (segment) {
-            segment.electrified = true;
-            segment.catenarySide = side;
-        }
-
-        const drawDataList = this._trackCurveManager.persistedDrawData;
-        for (const drawData of drawDataList) {
+    private _onSegmentStyleChanged({
+        segmentNumber,
+    }: SegmentStyleChange): void {
+        for (const drawData of this._trackCurveManager.persistedDrawData) {
             if (
-                drawData.originalTrackSegment.trackSegmentNumber ===
+                drawData.originalTrackSegment.trackSegmentNumber !==
                 segmentNumber
             ) {
-                drawData.electrified = true;
-                drawData.catenarySide = side;
-
-                const key = JSON.stringify({
-                    trackSegmentNumber:
-                        drawData.originalTrackSegment.trackSegmentNumber,
-                    tValInterval: drawData.originalTrackSegment.tValInterval,
-                });
-
-                // Remove existing catenary graphics if present.
-                const existing = this._catenaryMap.get(key);
-                if (existing !== undefined) {
-                    const removed = this._worldRenderSystem.removeFromBand(
-                        `__catenary__${key}`
-                    );
-                    removed?.destroy({ children: true });
-                    this._catenaryMap.delete(key);
-                }
-
-                // Rebuild catenary graphics on the new side.
-                const catenaryContainer =
-                    this._buildCatenaryForDrawData(drawData);
-                const bandIndex = this._drawDataBandMap.get(key);
-                if (bandIndex !== undefined) {
-                    this._worldRenderSystem.addToBand(
-                        `__catenary__${key}`,
-                        catenaryContainer,
-                        bandIndex,
-                        'catenary'
-                    );
-                    this._catenaryMap.set(key, catenaryContainer);
-                }
+                continue;
             }
-        }
-    }
+            const key = JSON.stringify({
+                trackSegmentNumber: segmentNumber,
+                tValInterval: drawData.originalTrackSegment.tValInterval,
+            });
 
-    /**
-     * Remove catenary electrification from an existing track segment.
-     * Clears electrified/catenarySide from all draw data entries belonging to that segment.
-     */
-    removeCatenary(segmentNumber: number): void {
-        const segment =
-            this._trackCurveManager.getTrackSegmentWithJoints(segmentNumber);
-        if (segment) {
-            segment.electrified = false;
-            segment.catenarySide = undefined;
-        }
-
-        const drawDataList = this._trackCurveManager.persistedDrawData;
-        for (const drawData of drawDataList) {
-            if (
-                drawData.originalTrackSegment.trackSegmentNumber ===
-                segmentNumber
-            ) {
-                drawData.electrified = false;
-                drawData.catenarySide = undefined;
-
-                const key = JSON.stringify({
-                    trackSegmentNumber:
-                        drawData.originalTrackSegment.trackSegmentNumber,
-                    tValInterval: drawData.originalTrackSegment.tValInterval,
-                });
-
-                const existing = this._catenaryMap.get(key);
-                if (existing !== undefined) {
-                    const removed = this._worldRenderSystem.removeFromBand(
-                        `__catenary__${key}`
-                    );
-                    removed?.destroy({ children: true });
-                    this._catenaryMap.delete(key);
-                }
+            const existing = this._catenaryMap.get(key);
+            if (existing !== undefined) {
+                const removed = this._worldRenderSystem.removeFromBand(
+                    `__catenary__${key}`
+                );
+                removed?.destroy({ children: true });
+                this._catenaryMap.delete(key);
             }
+
+            const bandIndex = this._drawDataBandMap.get(key);
+            if (!drawData.electrified || bandIndex === undefined) {
+                continue;
+            }
+            const catenaryContainer = this._buildCatenaryForDrawData(drawData);
+            this._worldRenderSystem.addToBand(
+                `__catenary__${key}`,
+                catenaryContainer,
+                bandIndex,
+                'catenary'
+            );
+            this._catenaryMap.set(key, catenaryContainer);
         }
-    }
-
-    /** Total width of the gravel bed foundation for newly laid tracks (meters). */
-    get bedWidth(): number {
-        return this._bedWidth;
-    }
-
-    set bedWidth(value: number) {
-        this._bedWidth = Math.max(1, value);
-    }
-
-    /** Whether newly laid tracks will have a bed (gravel foundation below ballast). */
-    get bed(): boolean {
-        return this._bed;
-    }
-
-    set bed(value: boolean) {
-        this._bed = value;
     }
 
     get sunAngle(): number {
@@ -2047,21 +1947,6 @@ export class TrackRenderSystem {
         })[]
     ) {
         drawDataList.forEach(drawData => {
-            // Stamp the current track style and electrification onto the draw data
-            // so each segment retains the options that were active when it was laid down.
-            if (drawData.trackStyle === undefined) {
-                drawData.trackStyle = this._trackStyle;
-            }
-            if (drawData.electrified === undefined) {
-                drawData.electrified = this._electrified;
-            }
-            if (drawData.bedWidth === undefined) {
-                drawData.bedWidth = this._bedWidth;
-            }
-            if (drawData.bed === undefined) {
-                drawData.bed = this._bed;
-            }
-
             const key = JSON.stringify({
                 trackSegmentNumber:
                     drawData.originalTrackSegment.trackSegmentNumber,
@@ -2446,16 +2331,16 @@ export class TrackRenderSystem {
         const curveLength = curve.fullLength;
         const poleSpacing = 25;
         const poleCount = Math.max(1, Math.floor(curveLength / poleSpacing));
-        const visualProps = this._trackCurveManager.getVisualPropsForSegment(
+        const segment = this._trackCurveManager.getTrackSegmentWithJoints(
             state.segmentNumber
         );
-        const gauge = visualProps?.gauge ?? 1.067;
+        const gauge = segment?.gauge ?? 1.067;
         const tieOverhang = 4;
         const tieHw =
             (gauge / 2) * ((TRACK_TEX_SIZE + tieOverhang * 2) / TRACK_TEX_SIZE);
         const bHw = tieHw + 0.15;
-        const mastOffset = visualProps?.bed
-            ? Math.max(bHw, (visualProps.bedWidth ?? 3) / 2)
+        const mastOffset = segment?.bed
+            ? Math.max(bHw, (segment.bedWidth ?? 3) / 2)
             : bHw;
         const side = state.side;
 
@@ -2545,20 +2430,6 @@ export class TrackRenderSystem {
 
         drawDataList.forEach(({ drawData, index }, i) => {
             const key = `__preview__${i}`;
-
-            // Stamp current settings so texture builders use the active style.
-            if (drawData.trackStyle === undefined) {
-                drawData.trackStyle = this._trackStyle;
-            }
-            if (drawData.electrified === undefined) {
-                drawData.electrified = this._electrified;
-            }
-            if (drawData.bedWidth === undefined) {
-                drawData.bedWidth = this._bedWidth;
-            }
-            if (drawData.bed === undefined) {
-                drawData.bed = this._bed;
-            }
 
             const segmentsContainer = new Container();
 

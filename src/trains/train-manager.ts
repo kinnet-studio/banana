@@ -1,6 +1,5 @@
 import { Observable, SynchronousObservable } from '@ue-too/board';
-
-import { GenericEntityManager } from '@/utils';
+import { GenericEntityManager } from 'track-layout';
 
 import { MAX_FORMATION_DEPTH, Train } from './formation';
 import type { ProximityDetector, ProximityMatch } from './proximity-detector';

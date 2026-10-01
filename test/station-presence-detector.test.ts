@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
-import type { StationManager } from '../src/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '../src/stations/track-aligned-platform-manager';
 import type { ThrottleSteps, Train } from '../src/trains/formation';
 import type { OccupancyRegistry } from '../src/trains/occupancy-registry';
 import {
@@ -12,7 +13,6 @@ import {
     buildStopIndex,
     findNearestStop,
 } from '../src/trains/station-presence-detector';
-import type { TrackGraph } from '../src/trains/tracks/track';
 import type { PlacedTrainEntry } from '../src/trains/train-manager';
 
 // ---------------------------------------------------------------------------

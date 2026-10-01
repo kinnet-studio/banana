@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'bun:test';
+import { StationManager } from 'track-layout';
+import { TrackAlignedPlatformManager } from 'track-layout';
+import { ELEVATION } from 'track-layout';
 
-import { StationManager } from '../src/stations/station-manager';
-import { TrackAlignedPlatformManager } from '../src/stations/track-aligned-platform-manager';
 import { ShiftTemplateManager } from '../src/timetable/shift-template-manager';
 import type { SerializedShiftTemplate } from '../src/timetable/types';
-import { ELEVATION } from '../src/trains/tracks/types';
 
 function makeStationWithIslandPlatform() {
     const mgr = new StationManager();
