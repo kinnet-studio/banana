@@ -101,16 +101,18 @@ describe('wireStationRenderers', () => {
         const oldPlatform = platforms.createPlatform(platformFor(old));
         calls.length = 0;
 
-        // The order scene-serialization.ts replaces them in.
+        // The order scene-serialization.ts replaces them in: the stations
+        // block (destroy the old, create the restored), then the platforms
+        // block (destroy the remaining, create the restored).
         for (const { id } of stations.getStations())
             stations.destroyStation(id);
-        for (const { id } of platforms.getAllPlatforms()) {
-            platforms.destroyPlatform(id);
-        }
         stations.createStationWithId(4, {
             ...station(ELEVATION.ABOVE_1),
             id: 4,
         });
+        for (const { id } of platforms.getAllPlatforms()) {
+            platforms.destroyPlatform(id);
+        }
         platforms.createPlatformWithId(9, platformFor(4));
 
         expect(calls).toEqual([

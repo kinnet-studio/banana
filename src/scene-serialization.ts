@@ -128,8 +128,10 @@ export async function deserializeSceneData(
         app.blockSignalManager.deserialize(data.signals);
     }
 
-    // Load stations and rebuild their render visuals (must come before
-    // track-aligned platforms so that station elevation lookups succeed).
+    // Load stations before track-aligned platforms: wireStationRenderers
+    // draws each platform at its station's elevation, so the station must
+    // exist first. The managers' add and remove events add and remove the
+    // visuals.
     if (data.stations) {
         const restored = StationManager.deserialize(data.stations);
         // Replace the current station manager's state
