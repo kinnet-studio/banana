@@ -5,7 +5,6 @@
     "": {
       "name": "banana",
       "dependencies": {
-        "track-layout": "../../track/main/.pack/track-layout-local.tgz",
         "@protomaps/basemaps": "^5.7.2",
         "@radix-ui/react-separator": "^1.1.8",
         "@radix-ui/react-slot": "^1.2.4",
@@ -43,6 +42,7 @@
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
         "three": "^0.183.2",
+        "track-layout": "../../track/main/.pack/track-layout-local.tgz",
         "zustand": "^5.0.12",
       },
       "devDependencies": {
@@ -641,7 +641,7 @@
 
     "tinyqueue": ["tinyqueue@3.0.0", "", {}, "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g=="],
 
-    "track-layout": ["track-layout@../../track/main/.pack/track-layout-local.tgz", { "peerDependencies": { "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-POAhoIZ7kY5vi4mEJPdYlM6Eu3z3/rQJS3240eMH8RlxVGr2Q5fCLjPI2BJ9lfvmmjQ3+8dS8JLPWB/v8XsQew=="],
+    "track-layout": ["track-layout@../../track/main/.pack/track-layout-local.tgz", { "peerDependencies": { "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-ZPHnxuuNQPfKhguQknNrxErdBFFCDPBS1I0mw6NZryOnLz8StcCpNojpsh1OjwI/1r2PWl114PpMJTM61bK4zg=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
