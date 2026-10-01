@@ -236,7 +236,6 @@ export function StationListPanel({
     };
 
     const handleDelete = (id: number) => {
-        stationRenderSystem.removeStation(id);
         stationManager.destroyStation(id);
         if (pickingForStation === id) setPickingForStation(null);
         setVersion(v => v + 1);
@@ -259,7 +258,7 @@ export function StationListPanel({
 
     const handleCreateEmptyStation = () => {
         const pos = cameraRig.camera.position;
-        const stationId = stationManager.createStation({
+        stationManager.createStation({
             name: 'Station',
             position: { x: pos.x, y: pos.y },
             elevation: ELEVATION.GROUND,
@@ -268,7 +267,6 @@ export function StationListPanel({
             joints: [],
             trackAlignedPlatforms: [],
         });
-        stationRenderSystem.addStation(stationId);
         setVersion(v => v + 1);
         onStationChange?.();
     };

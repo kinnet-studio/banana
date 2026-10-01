@@ -31,10 +31,9 @@ import {
     LayoutStateMachine,
 } from 'track-layout/editing';
 import { createLayoutStateMachine } from 'track-layout/editing';
-
-import type { DualSpinePlacementStateMachine } from '@/stations/dual-spine-placement-state-machine';
-import type { SingleSpinePlacementStateMachine } from '@/stations/single-spine-placement-state-machine';
-import { StationPlacementStateMachine } from '@/stations/station-placement-state-machine';
+import type { DualSpinePlacementStateMachine } from 'track-layout/station-placement';
+import type { SingleSpinePlacementStateMachine } from 'track-layout/station-placement';
+import { StationPlacementStateMachine } from 'track-layout/station-placement';
 
 import {
     ToolSwitcherContext,

@@ -26,6 +26,14 @@ import { createDuplicateToSideStateMachine } from 'track-layout/editing';
 import { createJointDirectionStateMachine } from 'track-layout/editing';
 import { LayoutStateMachine } from 'track-layout/editing';
 import { createLayoutStateMachine } from 'track-layout/editing';
+import {
+    DualSpinePlacementEngine,
+    SingleSpinePlacementEngine,
+    StationPlacementEngine,
+    createDualSpinePlacementStateMachine,
+    createSingleSpinePlacementStateMachine,
+    createStationPlacementStateMachine,
+} from 'track-layout/station-placement';
 
 import { BuildingManager, BuildingRenderSystem } from '@/buildings';
 import i18n from '@/i18n';
@@ -41,20 +49,10 @@ import {
     SignalRenderSystem,
     SignalStateEngine,
 } from '@/signals';
-import {
-    DualSpinePlacementEngine,
-    createDualSpinePlacementStateMachine,
-} from '@/stations/dual-spine-placement-state-machine';
-import {
-    SingleSpinePlacementEngine,
-    createSingleSpinePlacementStateMachine,
-} from '@/stations/single-spine-placement-state-machine';
-import {
-    StationPlacementEngine,
-    StationPlacementStateMachine,
-} from '@/stations/station-placement-state-machine';
 import { StationRenderSystem } from '@/stations/station-render-system';
+import { wireStationRenderers } from '@/stations/station-render-wiring';
 import { TrackAlignedPlatformRenderSystem } from '@/stations/track-aligned-platform-render-system';
+import { useGaugeStore } from '@/stores/gauge-store';
 import { TerrainData } from '@/terrain/terrain-data';
 import { TerrainRenderSystem } from '@/terrain/terrain-render-system';
 import { TimeManager } from '@/time';
@@ -688,6 +686,15 @@ export const initApp = async (
             { renderer: baseComponents.app.renderer }
         );
 
+    baseComponents.cleanups.push(
+        wireStationRenderers(
+            stationManager,
+            trackAlignedPlatformManager,
+            stationRenderSystem,
+            trackAlignedPlatformRenderSystem
+        )
+    );
+
     trackGraph.setSegmentProtectionCheck(segNum => {
         return (
             trackAlignedPlatformManager.getPlatformsBySegment(segNum).length > 0
@@ -734,13 +741,13 @@ export const initApp = async (
         trainPlacementEngine
     );
     const stationPlacementEngine = new StationPlacementEngine(
-        baseComponents.canvasProxy,
         trackGraph,
-        baseComponents.camera,
+        windowToWorld,
         stationManager,
-        stationRenderSystem
+        stationRenderSystem,
+        () => useGaugeStore.getState().currentGauge
     );
-    const stationStateMachine = new StationPlacementStateMachine(
+    const stationStateMachine = createStationPlacementStateMachine(
         stationPlacementEngine
     );
 
@@ -757,9 +764,8 @@ export const initApp = async (
     };
 
     const singleSpineEngine = new SingleSpinePlacementEngine(
-        baseComponents.canvasProxy,
         trackGraph,
-        baseComponents.camera,
+        windowToWorld,
         stationManager,
         trackAlignedPlatformManager,
         trackAlignedPlatformRenderSystem,
@@ -769,9 +775,8 @@ export const initApp = async (
         createSingleSpinePlacementStateMachine(singleSpineEngine);
 
     const dualSpineEngine = new DualSpinePlacementEngine(
-        baseComponents.canvasProxy,
         trackGraph,
-        baseComponents.camera,
+        windowToWorld,
         stationManager,
         trackAlignedPlatformManager,
         trackAlignedPlatformRenderSystem,
@@ -868,13 +873,12 @@ export const initApp = async (
             // Track-aligned platform IDs are listed in station.trackAlignedPlatforms;
             // the actual entities are still alive here because destroyPlatform on
             // trackAlignedPlatformManager fires _onBeforeDestroy first, which
-            // will handle resource cleanup. We only need the render removal +
-            // entity destruction here.
+            // will handle resource cleanup. We only need the entity destruction
+            // here; its removal event takes the platform's visuals away.
         }
         const tapPlatforms =
             trackAlignedPlatformManager.getPlatformsByStation(stationId);
         for (const { id } of tapPlatforms) {
-            trackAlignedPlatformRenderSystem.removePlatform(id);
             trackAlignedPlatformManager.destroyPlatform(id);
         }
     });

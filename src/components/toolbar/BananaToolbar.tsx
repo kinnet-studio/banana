@@ -581,7 +581,6 @@ export function BananaToolbar({
             const obj = parsed as Record<string, unknown>;
             if (Array.isArray(obj.stations)) {
                 for (const { id } of app.stationManager.getStations()) {
-                    app.stationRenderSystem.removeStation(id);
                     app.stationManager.destroyStation(id);
                 }
                 const restored = StationManager.deserialize({
@@ -589,7 +588,6 @@ export function BananaToolbar({
                 });
                 for (const { id, station } of restored.getStations()) {
                     app.stationManager.createStationWithId(id, station);
-                    app.stationRenderSystem.addStation(id);
                 }
             }
 

@@ -134,12 +134,10 @@ export async function deserializeSceneData(
         const restored = StationManager.deserialize(data.stations);
         // Replace the current station manager's state
         for (const { id } of app.stationManager.getStations()) {
-            app.stationRenderSystem.removeStation(id);
             app.stationManager.destroyStation(id);
         }
         for (const { id, station } of restored.getStations()) {
             app.stationManager.createStationWithId(id, station);
-            app.stationRenderSystem.addStation(id);
         }
     }
 
@@ -175,15 +173,10 @@ export async function deserializeSceneData(
         for (const {
             id,
         } of app.trackAlignedPlatformManager.getAllPlatforms()) {
-            app.trackAlignedPlatformRenderSystem.removePlatform(id);
             app.trackAlignedPlatformManager.destroyPlatform(id);
         }
         for (const { id, platform } of restored.getAllPlatforms()) {
             app.trackAlignedPlatformManager.createPlatformWithId(id, platform);
-            const elevation =
-                app.stationManager.getStation(platform.stationId)?.elevation ??
-                0;
-            app.trackAlignedPlatformRenderSystem.addPlatform(id, elevation);
         }
 
         // Rewrite station.trackAlignedPlatforms: replace any old dual-spine

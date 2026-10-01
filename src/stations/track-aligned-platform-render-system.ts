@@ -5,6 +5,10 @@ import type { TrackGraph } from 'track-layout';
 import { sampleSpineEdge } from 'track-layout';
 import type { TrackAlignedPlatformManager } from 'track-layout';
 import type { TrackAlignedPlatform } from 'track-layout';
+import type {
+    DualSpinePlacementPreview,
+    SingleSpinePlacementPreview,
+} from 'track-layout/station-placement';
 
 import type { TrackTextureRenderer } from '@/trains/tracks/render-system';
 import type { WorldRenderSystem } from '@/world-render-system';
@@ -119,7 +123,9 @@ function seededRng(seed: number): () => number {
     };
 }
 
-export class TrackAlignedPlatformRenderSystem {
+export class TrackAlignedPlatformRenderSystem
+    implements SingleSpinePlacementPreview, DualSpinePlacementPreview
+{
     private _worldRenderSystem: WorldRenderSystem;
     private _platformManager: TrackAlignedPlatformManager;
     private _trackGraph: TrackGraph;
@@ -400,77 +406,6 @@ export class TrackAlignedPlatformRenderSystem {
             g.circle(spineBEndAnchor.x, spineBEndAnchor.y, 0.5);
             g.fill({ color: 0xcc8844, alpha: 0.9 });
         }
-
-        this._worldRenderSystem.sortChildren();
-    }
-
-    /**
-     * Show the cap-pairing preview: both spines plus connection lines showing
-     * which endpoints would be paired based on cursor proximity.
-     */
-    showCapPairingPreview(
-        spineAPoints: Point[],
-        spineBPoints: Point[],
-        spineAStartAnchor: Point,
-        spineAEndAnchor: Point,
-        spineBStartAnchor: Point,
-        spineBEndAnchor: Point,
-        cursorNearBEnd: boolean
-    ): void {
-        const g = this._ensurePreviewGraphics();
-        g.clear();
-
-        // Draw spine A (green).
-        if (spineAPoints.length >= 2) {
-            g.moveTo(spineAPoints[0].x, spineAPoints[0].y);
-            for (let i = 1; i < spineAPoints.length; i++) {
-                g.lineTo(spineAPoints[i].x, spineAPoints[i].y);
-            }
-            g.stroke({ color: 0x44cc88, alpha: 0.9, width: 0.25 });
-        }
-
-        // Draw spine B (cyan).
-        if (spineBPoints.length >= 2) {
-            g.moveTo(spineBPoints[0].x, spineBPoints[0].y);
-            for (let i = 1; i < spineBPoints.length; i++) {
-                g.lineTo(spineBPoints[i].x, spineBPoints[i].y);
-            }
-            g.stroke({ color: 0x44aacc, alpha: 0.9, width: 0.25 });
-        }
-
-        // Draw connection lines for the active pairing (bright).
-        // Draw the alternative pairing (dim).
-        const activeAlpha = 0.9;
-        const dimAlpha = 0.25;
-
-        // Option 1: A_end ↔ B_end, B_start ↔ A_start (cursorNearBEnd = true)
-        // Option 2: A_end ↔ B_start, B_end ↔ A_start (cursorNearBEnd = false)
-        const pair1Alpha = cursorNearBEnd ? activeAlpha : dimAlpha;
-        const pair2Alpha = cursorNearBEnd ? dimAlpha : activeAlpha;
-
-        // Pairing 1: A_end → B_end, B_start → A_start
-        g.moveTo(spineAEndAnchor.x, spineAEndAnchor.y);
-        g.lineTo(spineBEndAnchor.x, spineBEndAnchor.y);
-        g.moveTo(spineBStartAnchor.x, spineBStartAnchor.y);
-        g.lineTo(spineAStartAnchor.x, spineAStartAnchor.y);
-        g.stroke({ color: 0xf0cc00, alpha: pair1Alpha, width: 0.2 });
-
-        // Pairing 2: A_end → B_start, B_end → A_start
-        g.moveTo(spineAEndAnchor.x, spineAEndAnchor.y);
-        g.lineTo(spineBStartAnchor.x, spineBStartAnchor.y);
-        g.moveTo(spineBEndAnchor.x, spineBEndAnchor.y);
-        g.lineTo(spineAStartAnchor.x, spineAStartAnchor.y);
-        g.stroke({ color: 0xf0cc00, alpha: pair2Alpha, width: 0.2 });
-
-        // Anchors.
-        g.circle(spineAStartAnchor.x, spineAStartAnchor.y, 0.5);
-        g.fill({ color: 0x44cc88, alpha: 0.9 });
-        g.circle(spineAEndAnchor.x, spineAEndAnchor.y, 0.5);
-        g.fill({ color: 0xcc4444, alpha: 0.9 });
-        g.circle(spineBStartAnchor.x, spineBStartAnchor.y, 0.5);
-        g.fill({ color: 0x44aacc, alpha: 0.9 });
-        g.circle(spineBEndAnchor.x, spineBEndAnchor.y, 0.5);
-        g.fill({ color: 0xcc8844, alpha: 0.9 });
 
         this._worldRenderSystem.sortChildren();
     }
