@@ -5,6 +5,7 @@ import { LEVEL_HEIGHT } from 'track-layout';
 import type { TrackGraph } from 'track-layout';
 import type { StationManager } from 'track-layout';
 import type { Platform } from 'track-layout';
+import type { StationPlacementPreview } from 'track-layout/station-placement';
 
 import type { TrackTextureRenderer } from '@/trains/tracks/render-system';
 import type { WorldRenderSystem } from '@/world-render-system';
@@ -39,7 +40,7 @@ function seededRng(seed: number): () => number {
     };
 }
 
-export class StationRenderSystem {
+export class StationRenderSystem implements StationPlacementPreview {
     private _worldRenderSystem: WorldRenderSystem;
     private _stationManager: StationManager;
     private _trackGraph: TrackGraph;
