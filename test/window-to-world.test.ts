@@ -33,6 +33,17 @@ describe('createWindowToWorld', () => {
         expect(world.y).toBeCloseTo(310);
     });
 
+    it('rotates window offsets by the camera rotation', () => {
+        const toWorld = createWindowToWorld(
+            canvas,
+            cameraAt(500, 300, 1, Math.PI / 2)
+        );
+        const world = toWorld({ x: 130, y: 70 });
+        expect(world.x).toBeCloseTo(500);
+        expect(Math.abs(world.y - 300)).toBeCloseTo(20);
+        expect(world.y).toBeCloseTo(320);
+    });
+
     it('reads the camera on every call', () => {
         const camera = cameraAt(0, 0, 1);
         const toWorld = createWindowToWorld(canvas, camera);
