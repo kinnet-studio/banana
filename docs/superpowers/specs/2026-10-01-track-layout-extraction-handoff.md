@@ -22,8 +22,8 @@ Banana's track and station logic is moving into a standalone npm package, [`trac
 - **track-layout** is at <https://github.com/kinnet-studio/track-layout>, checked out locally at `~/dev/track/main`.
     - 0.2.0 is on npm.
     - It has 327 tests, and the typecheck is clean.
-- **banana:** `main` uses 0.1.0. PR #19 moves it to 0.2.0 and `track-layout/editing`. Start phase 3 from banana `main` after #19 merges.
-- **Banana's baseline once #19 is merged:**
+- **banana:** `main` uses 0.2.0 and `track-layout/editing`, since #19 merged. Start phase 3 from banana `main`.
+- **Banana's baseline on `main`:**
     - `bun test`: 733 pass.
     - `tsc --noEmit`: 9 pre-existing errors: `BananaToolbar` 2, `DepotPanel` 1, `train-editor-tool-switcher` 2, `train-editor-toolbar` 2, `init-app` 2.
     - `bun run build` and `bun run format:check` are clean.

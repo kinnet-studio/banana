@@ -4,7 +4,7 @@
 - **Status:** This is a brief to brainstorm from, not an approved spec. Settle the open questions with the owner, then write the phase 3 spec and plan.
 - **Read first:** the [handoff](./2026-10-01-track-layout-extraction-handoff.md), which covers where things stand, the workflow, the tools and the pitfalls.
 - **Release:** `track-layout` 0.3.0.
-- **Start from:** banana `main` once #19 has merged, and track-layout `main`.
+- **Start from:** banana `main` and track-layout `main`.
 
 ## Goal
 
