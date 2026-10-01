@@ -575,6 +575,12 @@ export const initApp = async (
     const jointDirectionSubStateMachine = createJointDirectionStateMachine();
 
     const trackGraph = curveEngine.trackGraph;
+    catenaryLayoutEngine.onCommit(({ segmentNumber, side }) => {
+        trackGraph.setSegmentStyle(segmentNumber, {
+            electrified: true,
+            catenarySide: side,
+        });
+    });
     const jointDirectionPreferenceMap = new JointDirectionPreferenceMap();
 
     const jointDirectionRenderSystem = new JointDirectionRenderSystem(
