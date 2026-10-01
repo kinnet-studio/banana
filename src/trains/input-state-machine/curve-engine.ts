@@ -782,6 +782,21 @@ export class CurveCreationEngine
             }
         }
 
+        if (
+            (this._newStartJoint.type === 'branchCurve' &&
+                this._trackGraph.isSegmentProtected(
+                    this._newStartJoint.constraint.curve
+                )) ||
+            (this._newEndJoint.type === 'branchCurve' &&
+                this._trackGraph.isSegmentProtected(
+                    this._newEndJoint.constraint.curve
+                ))
+        ) {
+            console.warn('cannot branch from a segment under a platform');
+            this.cancelCurrentCurve();
+            return null;
+        }
+
         // END OF VALIDATION PIPELINE
 
         if (
