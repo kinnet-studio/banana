@@ -42,7 +42,7 @@
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
         "three": "^0.183.2",
-        "track-layout": "../../track/main/.pack/track-layout-local.tgz",
+        "track-layout": "^0.1.0",
         "zustand": "^5.0.12",
       },
       "devDependencies": {
@@ -641,7 +641,7 @@
 
     "tinyqueue": ["tinyqueue@3.0.0", "", {}, "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g=="],
 
-    "track-layout": ["track-layout@../../track/main/.pack/track-layout-local.tgz", { "peerDependencies": { "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-ZPHnxuuNQPfKhguQknNrxErdBFFCDPBS1I0mw6NZryOnLz8StcCpNojpsh1OjwI/1r2PWl114PpMJTM61bK4zg=="],
+    "track-layout": ["track-layout@0.1.0", "", { "peerDependencies": { "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-maYt11mIsVCreIxx0guAS1fWdUUw6mLpKZaFRE9gxqb5Pv/TgBXLcR7cyiwzFTDVM7Y9Kn16umi0swCF26Iwdw=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
