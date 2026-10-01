@@ -967,7 +967,7 @@ export function TimetablePanel({ onClose }: TimetablePanelProps) {
             const data = parsed as SerializedTimetableData;
             const restored = TimetableManager.deserialize(
                 data,
-                app.curveEngine.trackGraph,
+                app.trackGraph,
                 app.trainManager,
                 app.stationManager,
                 app.trackAlignedPlatformManager
@@ -988,7 +988,7 @@ export function TimetablePanel({ onClose }: TimetablePanelProps) {
         trackAlignedPlatformManager,
         formationManager,
     } = app;
-    const trackGraph = app.curveEngine.trackGraph;
+    const trackGraph = app.trackGraph;
 
     const headerActions = (
         <>

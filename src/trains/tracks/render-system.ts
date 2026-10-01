@@ -18,6 +18,17 @@ import {
     TrackSegmentWithCollision,
 } from 'track-layout';
 import type { SegmentStyleChange } from 'track-layout';
+import { CurveCreationEngine } from 'track-layout/editing';
+import {
+    CatenaryHighlightState,
+    CatenaryLayoutEngine,
+    CatenaryPreviewState,
+} from 'track-layout/editing';
+import { DeletionHighlightState } from 'track-layout/editing';
+import {
+    DuplicateHighlightState,
+    DuplicateToSideEngine,
+} from 'track-layout/editing';
 
 import type { TerrainData } from '@/terrain/terrain-data';
 import { clearShadowCache } from '@/utils';
@@ -26,17 +37,6 @@ import {
     findElevationInterval,
 } from '@/world-render-system';
 
-import { CurveCreationEngine } from '../input-state-machine';
-import {
-    CatenaryHighlightState,
-    CatenaryLayoutEngine,
-    CatenaryPreviewState,
-} from '../input-state-machine/catenary-layout-engine';
-import { DeletionHighlightState } from '../input-state-machine/curve-engine';
-import {
-    DuplicateHighlightState,
-    DuplicateToSideEngine,
-} from '../input-state-machine/duplicate-to-side-engine';
 import { ballastHalfWidth } from './geometry-utils';
 import { computeTunnelEntranceGeometry } from './tunnel-geometry';
 

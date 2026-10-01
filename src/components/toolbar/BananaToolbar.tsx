@@ -546,7 +546,7 @@ export function BananaToolbar({
         if (!app) return;
         trackEvent('export-tracks');
         const data = {
-            ...app.curveEngine.trackGraph.serialize(),
+            ...app.trackGraph.serialize(),
             stations: app.stationManager.serialize().stations,
         };
         downloadJson(`track-data-${Date.now()}.json`, data);
@@ -565,7 +565,7 @@ export function BananaToolbar({
             useSceneStore.getState().setSceneLoading(true);
             useSceneStore.getState().setSceneLoadProgress(0);
 
-            await app.curveEngine.trackGraph.loadFromSerializedData(
+            await app.trackGraph.loadFromSerializedData(
                 parsed as SerializedTrackData,
                 {
                     onProgress: (loaded, total) =>
@@ -619,7 +619,7 @@ export function BananaToolbar({
             }
             deserializeTrainData(
                 parsed as SerializedTrainData,
-                app.curveEngine.trackGraph,
+                app.trackGraph,
                 app.jointDirectionManager,
                 app.trainManager,
                 app.formationManager,
@@ -1341,7 +1341,7 @@ export function BananaToolbar({
                 <StationListPanel
                     stationManager={app.stationManager}
                     stationRenderSystem={app.stationRenderSystem}
-                    trackGraph={app.curveEngine.trackGraph}
+                    trackGraph={app.trackGraph}
                     trackAlignedPlatformManager={
                         app.trackAlignedPlatformManager
                     }
@@ -1379,7 +1379,7 @@ export function BananaToolbar({
                     shiftTemplateManager={
                         app.timetableManager.shiftTemplateManager
                     }
-                    trackGraph={app.curveEngine.trackGraph}
+                    trackGraph={app.trackGraph}
                     platformBufferStore={app.platformBufferStore}
                     onClose={() => setEditingPlatform(null)}
                     onStopChange={() => app.debugOverlayRenderSystem.refresh()}
@@ -1395,7 +1395,7 @@ export function BananaToolbar({
                     blockSignalManager={app.blockSignalManager}
                     signalStateEngine={app.signalStateEngine}
                     signalRenderSystem={app.signalRenderSystem}
-                    trackGraph={app.curveEngine.trackGraph}
+                    trackGraph={app.trackGraph}
                     onClose={() => setPanel('signalPanel', false)}
                 />
             )}

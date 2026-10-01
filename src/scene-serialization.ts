@@ -72,7 +72,7 @@ export function serializeSceneData(
         carCargo: app.carCargoStore.serialize(),
     };
     return {
-        tracks: app.curveEngine.trackGraph.serialize(),
+        tracks: app.trackGraph.serialize(),
         trains: serializeTrainData(
             app.trainManager,
             app.formationManager,
@@ -100,12 +100,12 @@ export async function deserializeSceneData(
     clearShadowCache();
 
     // Load tracks first so train positions can resolve to points (batched)
-    await app.curveEngine.trackGraph.loadFromSerializedData(data.tracks, {
+    await app.trackGraph.loadFromSerializedData(data.tracks, {
         onProgress: options?.onProgress,
     });
     deserializeTrainData(
         data.trains,
-        app.curveEngine.trackGraph,
+        app.trackGraph,
         app.jointDirectionManager,
         app.trainManager,
         app.formationManager,
@@ -161,9 +161,7 @@ export async function deserializeSceneData(
                     legacy.offset,
                     segmentId => {
                         const curve =
-                            app.curveEngine.trackGraph.getTrackSegmentCurve(
-                                segmentId
-                            );
+                            app.trackGraph.getTrackSegmentCurve(segmentId);
                         if (curve === null)
                             throw new Error(
                                 `Missing curve for segment ${segmentId}`
@@ -211,7 +209,7 @@ export async function deserializeSceneData(
         app.timetableManager.dispose();
         const restored = TimetableManager.deserialize(
             data.timetable,
-            app.curveEngine.trackGraph,
+            app.trackGraph,
             app.trainManager,
             app.stationManager,
             app.trackAlignedPlatformManager,
