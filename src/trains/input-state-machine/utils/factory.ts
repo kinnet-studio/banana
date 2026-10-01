@@ -1,7 +1,6 @@
 import { TemplateStateMachine } from '@ue-too/being';
 import { Canvas, ObservableBoardCamera } from '@ue-too/board';
-
-import { TrackGraph } from '@/trains/tracks';
+import { TrackGraph } from 'track-layout';
 
 import { CurveCreationEngine } from '../curve-engine';
 import {

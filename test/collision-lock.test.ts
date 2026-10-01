@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'bun:test';
+import type { TrackGraph } from 'track-layout';
 
 import { Car } from '../src/trains/cars';
 import { Formation, Train } from '../src/trains/formation';
 import type { JointDirectionManager } from '../src/trains/input-state-machine/train-kmt-state-machine';
-import type { TrackGraph } from '../src/trains/tracks/track';
 
 const mockTrackGraph = {} as unknown as TrackGraph;
 const mockJointDirectionManager = {} as unknown as JointDirectionManager;

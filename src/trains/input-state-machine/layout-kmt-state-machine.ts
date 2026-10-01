@@ -8,8 +8,8 @@ import type {
 } from '@ue-too/being';
 import { NO_OP, TemplateState } from '@ue-too/being';
 import { type Point } from '@ue-too/math';
+import { ELEVATION, ProjectionPositiveResult } from 'track-layout';
 
-import { ELEVATION, ProjectionPositiveResult } from '../tracks/types';
 import { NewJointType } from './types';
 
 export const LAYOUT_STATES = [

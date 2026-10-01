@@ -5,8 +5,8 @@ import {
     SynchronousObservable,
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
+import { TrackGraph } from 'track-layout';
 
-import { TrackGraph } from '../tracks/track';
 import { CatenaryLayoutContext } from './catenary-layout-state-machine';
 
 /**

@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
+import { JointDirectionPreferenceMap } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+import type { TrackJoint } from 'track-layout';
 
 import { DefaultJointDirectionManager } from '../src/trains/input-state-machine/train-kmt-state-machine';
-import { JointDirectionPreferenceMap } from '../src/trains/tracks/joint-direction-preference-map';
-import type { TrackGraph } from '../src/trains/tracks/track';
-import type { TrackJoint } from '../src/trains/tracks/types';
 
 // ---------------------------------------------------------------------------
 // Helpers (same pattern as timetable-joint-direction-manager.test.ts)

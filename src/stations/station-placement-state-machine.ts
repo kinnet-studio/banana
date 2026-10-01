@@ -18,13 +18,13 @@ import {
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
 import { PointCal } from '@ue-too/math';
+import type { TrackGraph } from 'track-layout';
+import { ELEVATION } from 'track-layout';
+import { createIslandStation } from 'track-layout';
+import type { StationManager } from 'track-layout';
 
 import { useGaugeStore } from '@/stores/gauge-store';
-import type { TrackGraph } from '@/trains/tracks/track';
-import { ELEVATION } from '@/trains/tracks/types';
 
-import { createIslandStation } from './station-factory';
-import type { StationManager } from './station-manager';
 import type { StationRenderSystem } from './station-render-system';
 
 // ---------------------------------------------------------------------------

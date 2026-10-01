@@ -1,4 +1,5 @@
 import type { Point } from '@ue-too/math';
+import type { TrackGraph } from 'track-layout';
 
 import type { CarStockManager } from './car-stock-manager';
 import {
@@ -11,7 +12,6 @@ import type { TrainPosition } from './formation';
 import { Formation, Train } from './formation';
 import type { FormationManager } from './formation-manager';
 import type { JointDirectionManager } from './input-state-machine/train-kmt-state-machine';
-import type { TrackGraph } from './tracks/track';
 import type { TrainManager } from './train-manager';
 
 /** JSON-safe car data for serialization. */

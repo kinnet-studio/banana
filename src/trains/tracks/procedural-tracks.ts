@@ -1,6 +1,5 @@
 import { Point } from '@ue-too/math';
-
-import { TrackGraph } from './track';
+import { TrackGraph } from 'track-layout';
 
 export type ProceduralTrackOptions = {
     /** Number of track segments to create (chain of segments). */

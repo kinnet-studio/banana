@@ -13,6 +13,8 @@
  */
 import { BCurve } from '@ue-too/curve';
 import { describe, expect, it } from 'bun:test';
+import type { TrackGraph } from 'track-layout';
+import type { TrackJoint } from 'track-layout';
 
 import { TimetableJointDirectionManager } from '../src/timetable/timetable-joint-direction-manager';
 import type { RouteJointStep } from '../src/timetable/types';
@@ -22,8 +24,6 @@ import {
     DefaultJointDirectionManager,
     type JointDirectionManager,
 } from '../src/trains/input-state-machine/train-kmt-state-machine';
-import type { TrackGraph } from '../src/trains/tracks/track';
-import type { TrackJoint } from '../src/trains/tracks/types';
 
 // ---------------------------------------------------------------------------
 // Fixture track graph

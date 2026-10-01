@@ -11,8 +11,8 @@
  *
  * @group Terrain
  */
-import { LEVEL_HEIGHT } from '@/trains/tracks/constants';
-import { ELEVATION_VALUES } from '@/trains/tracks/types';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { ELEVATION_VALUES } from 'track-layout';
 
 import { sampleColorRamp, sampleWaterColor } from './terrain-colors';
 import { type TerrainConfig, TerrainData } from './terrain-data';

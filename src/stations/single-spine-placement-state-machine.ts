@@ -20,20 +20,19 @@ import {
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
 import { PointCal } from '@ue-too/math';
-
-import type { TrackGraph } from '@/trains/tracks/track';
-
-import { computePlatformOffset } from './platform-offset';
+import type { TrackGraph } from 'track-layout';
+import { computePlatformOffset } from 'track-layout';
 import {
     computeAnchorPoint,
     computeStopPositions,
     sampleSpineEdge,
     validateSpine,
-} from './spine-utils';
-import type { StationManager } from './station-manager';
-import type { TrackAlignedPlatformManager } from './track-aligned-platform-manager';
+} from 'track-layout';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { SpineEntry } from 'track-layout';
+
 import type { TrackAlignedPlatformRenderSystem } from './track-aligned-platform-render-system';
-import type { SpineEntry } from './track-aligned-platform-types';
 
 // ---------------------------------------------------------------------------
 // States & Events

@@ -1,7 +1,6 @@
 import { Container } from 'pixi.js';
-
-import { LEVEL_HEIGHT } from './trains/tracks/constants';
-import { ELEVATION, ELEVATION_VALUES } from './trains/tracks/types';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { ELEVATION, ELEVATION_VALUES } from 'track-layout';
 
 const getElevationIndex = (elevation: ELEVATION): number => {
     const i = ELEVATION_VALUES.indexOf(elevation);

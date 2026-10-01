@@ -30,22 +30,28 @@ export function useRenderSync(app: BananaAppComponents | null): void {
                     state.showPreviewCurveArcs;
             }
             if (state.trackStyle !== prev.trackStyle) {
-                app.trackRenderSystem.trackStyle = state.trackStyle;
+                app.curveEngine.trackGraph.setNewSegmentStyle({
+                    trackStyle: state.trackStyle,
+                });
             }
             if (state.electrified !== prev.electrified) {
-                app.trackRenderSystem.electrified = state.electrified;
+                app.curveEngine.trackGraph.setNewSegmentStyle({
+                    electrified: state.electrified,
+                });
             }
             if (state.projectionBuffer !== prev.projectionBuffer) {
                 app.curveEngine.trackGraph.projectionBuffer =
                     state.projectionBuffer;
             }
             if (state.bed !== prev.bed) {
-                app.trackRenderSystem.bed = state.bed;
-                app.curveEngine.trackGraph.bedEnabled = state.bed;
+                app.curveEngine.trackGraph.setNewSegmentStyle({
+                    bed: state.bed,
+                });
             }
             if (state.bedWidth !== prev.bedWidth) {
-                app.trackRenderSystem.bedWidth = state.bedWidth;
-                app.curveEngine.trackGraph.bedWidth = state.bedWidth;
+                app.curveEngine.trackGraph.setNewSegmentStyle({
+                    bedWidth: state.bedWidth,
+                });
             }
             if (state.terrainXray !== prev.terrainXray) {
                 app.terrainRenderSystem.xray = state.terrainXray;
@@ -112,13 +118,13 @@ function applyAll(
     app.buildingRenderSystem.sunAngle = state.sunAngle;
     app.trackRenderSystem.showElevationGradient = state.showElevationGradient;
     app.trackRenderSystem.showPreviewCurveArcs = state.showPreviewCurveArcs;
-    app.trackRenderSystem.trackStyle = state.trackStyle;
-    app.trackRenderSystem.electrified = state.electrified;
+    app.curveEngine.trackGraph.setNewSegmentStyle({
+        trackStyle: state.trackStyle,
+        electrified: state.electrified,
+        bed: state.bed,
+        bedWidth: state.bedWidth,
+    });
     app.curveEngine.trackGraph.projectionBuffer = state.projectionBuffer;
-    app.trackRenderSystem.bed = state.bed;
-    app.curveEngine.trackGraph.bedEnabled = state.bed;
-    app.trackRenderSystem.bedWidth = state.bedWidth;
-    app.curveEngine.trackGraph.bedWidth = state.bedWidth;
     app.terrainRenderSystem.xray = state.terrainXray;
     app.terrainRenderSystem.fillVisible = state.terrainFillVisible;
     app.terrainRenderSystem.fillOpacity = state.terrainOpacity;

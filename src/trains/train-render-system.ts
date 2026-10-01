@@ -6,6 +6,7 @@ import {
     Sprite,
     Texture,
 } from 'pixi.js';
+import { TrackGraph } from 'track-layout';
 
 import type { SourceSinkTicker, TransferManager } from '@/resources';
 import { WorldRenderSystem } from '@/world-render-system';
@@ -22,7 +23,6 @@ import {
     TrackRenderSystem,
     type TrackTextureRenderer,
 } from './tracks/render-system';
-import { TrackGraph } from './tracks/track';
 import type { PlacedTrainEntry } from './train-manager';
 
 const BOGIE_RADIUS = 1.067 / 2;

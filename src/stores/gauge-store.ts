@@ -1,10 +1,6 @@
+import { DEFAULT_GAUGE_PRESET, GAUGE_PRESETS } from 'track-layout';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-
-import {
-    DEFAULT_GAUGE_PRESET,
-    GAUGE_PRESETS,
-} from '@/trains/tracks/gauge-presets';
 
 const MIN_CUSTOM_GAUGE = 0.5;
 const MAX_CUSTOM_GAUGE = 3.0;

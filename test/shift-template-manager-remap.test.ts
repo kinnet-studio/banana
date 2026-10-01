@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
+import { StationManager } from 'track-layout';
+import { TrackAlignedPlatformManager } from 'track-layout';
+import type { PlatformMigrationMap } from 'track-layout';
 
-import { StationManager } from '../src/stations/station-manager';
-import { TrackAlignedPlatformManager } from '../src/stations/track-aligned-platform-manager';
-import type { PlatformMigrationMap } from '../src/stations/track-aligned-platform-migration';
 import { ShiftTemplateManager } from '../src/timetable/shift-template-manager';
 import type { SerializedShiftTemplate } from '../src/timetable/types';
 

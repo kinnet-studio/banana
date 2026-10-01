@@ -2,6 +2,7 @@ import { BoardCamera } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { StationManager } from 'track-layout';
 
 import { ArrowLeftRight, Crosshair, Focus, Trash2 } from '@/assets/icons';
 import { DraggablePanel } from '@/components/ui/draggable-panel';
@@ -12,7 +13,6 @@ import {
     RESOURCE_TYPES,
     type TransferManager,
 } from '@/resources';
-import type { StationManager } from '@/stations/station-manager';
 import type { ThrottleSteps } from '@/trains/formation';
 import type { StationPresenceDetector } from '@/trains/station-presence-detector';
 import type { TrainManager } from '@/trains/train-manager';

@@ -6,6 +6,18 @@ import {
 import { BCurve } from '@ue-too/curve';
 import { Point, PointCal } from '@ue-too/math';
 import { Container, Graphics, MeshSimple, Text, Texture } from 'pixi.js';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { TrackCurveManager } from 'track-layout';
+import {
+    ELEVATION,
+    ELEVATION_MAX,
+    ELEVATION_MIN,
+    ELEVATION_VALUES,
+    ProjectionPositiveResult,
+    TrackSegmentDrawData,
+    TrackSegmentWithCollision,
+    TrackStyle,
+} from 'track-layout';
 
 import type { TerrainData } from '@/terrain/terrain-data';
 import { clearShadowCache } from '@/utils';
@@ -25,20 +37,8 @@ import {
     DuplicateHighlightState,
     DuplicateToSideEngine,
 } from '../input-state-machine/duplicate-to-side-engine';
-import { LEVEL_HEIGHT } from './constants';
 import { ballastHalfWidth } from './geometry-utils';
-import { TrackCurveManager } from './trackcurve-manager';
 import { computeTunnelEntranceGeometry } from './tunnel-geometry';
-import {
-    ELEVATION,
-    ELEVATION_MAX,
-    ELEVATION_MIN,
-    ELEVATION_VALUES,
-    ProjectionPositiveResult,
-    TrackSegmentDrawData,
-    TrackSegmentWithCollision,
-    TrackStyle,
-} from './types';
 
 /** Zoom level above which detailed track draw data is shown; below this only the bezier curve is drawn. */
 const ZOOM_THRESHOLD_DETAILED_TRACK = 5;
@@ -2446,16 +2446,16 @@ export class TrackRenderSystem {
         const curveLength = curve.fullLength;
         const poleSpacing = 25;
         const poleCount = Math.max(1, Math.floor(curveLength / poleSpacing));
-        const visualProps = this._trackCurveManager.getVisualPropsForSegment(
+        const segment = this._trackCurveManager.getTrackSegmentWithJoints(
             state.segmentNumber
         );
-        const gauge = visualProps?.gauge ?? 1.067;
+        const gauge = segment?.gauge ?? 1.067;
         const tieOverhang = 4;
         const tieHw =
             (gauge / 2) * ((TRACK_TEX_SIZE + tieOverhang * 2) / TRACK_TEX_SIZE);
         const bHw = tieHw + 0.15;
-        const mastOffset = visualProps?.bed
-            ? Math.max(bHw, (visualProps.bedWidth ?? 3) / 2)
+        const mastOffset = segment?.bed
+            ? Math.max(bHw, (segment.bedWidth ?? 3) / 2)
             : bHw;
         const side = state.side;
 

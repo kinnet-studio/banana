@@ -9,13 +9,14 @@
  *
  * @module timetable/auto-driver
  */
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { StopPosition } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+
 import type { SignalStateEngine } from '@/signals/signal-state-engine';
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
-import type { StopPosition } from '@/stations/types';
 import type { Train, TrainPosition } from '@/trains/formation';
 import { DEFAULT_THROTTLE_STEPS } from '@/trains/formation';
-import type { TrackGraph } from '@/trains/tracks/track';
 
 import type { TimetableJointDirectionManager } from './timetable-joint-direction-manager';
 import type {

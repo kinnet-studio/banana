@@ -1,4 +1,4 @@
-import { TrackSegmentDrawData } from './types';
+import { TrackSegmentDrawData } from 'track-layout';
 
 /** Resolution of the procedural track segment texture (power-of-two for repeat wrap). */
 const TRACK_TEX_SIZE = 64;

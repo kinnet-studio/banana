@@ -1,8 +1,8 @@
 import type { Point } from '@ue-too/math';
 import { Graphics } from 'pixi.js';
+import { LEVEL_HEIGHT } from 'track-layout';
+import { ELEVATION, ELEVATION_VALUES } from 'track-layout';
 
-import { LEVEL_HEIGHT } from '@/trains/tracks/constants';
-import { ELEVATION, ELEVATION_VALUES } from '@/trains/tracks/types';
 import { WorldRenderSystem } from '@/world-render-system';
 
 import { BuildingManager } from './building-manager';

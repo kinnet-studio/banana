@@ -1,11 +1,10 @@
 import { Observable, SynchronousObservable } from '@ue-too/board';
-
-import type { StationManager } from '@/stations/station-manager';
-import type { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
+import type { StationManager } from 'track-layout';
+import type { TrackAlignedPlatformManager } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
 import { type ThrottleSteps, isStoppedCommand } from './formation';
 import type { OccupancyRegistry } from './occupancy-registry';
-import type { TrackGraph } from './tracks/track';
 import type { PlacedTrainEntry } from './train-manager';
 
 // ---------------------------------------------------------------------------

@@ -4,12 +4,11 @@ import {
     ObservableBoardCamera,
 } from '@ue-too/board';
 import { Container, Graphics } from 'pixi.js';
+import { JointDirectionPreferenceMap } from 'track-layout';
+import type { DirectionType } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
 
 import { WorldRenderSystem } from '@/world-render-system';
-
-import { JointDirectionPreferenceMap } from './joint-direction-preference-map';
-import type { DirectionType } from './joint-direction-preference-map';
-import type { TrackGraph } from './track';
 
 /** Base radius for the hover dot (world units); effective size = this / zoomLevel. */
 const HOVER_DOT_RADIUS = 8;

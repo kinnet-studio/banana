@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { ELEVATION } from 'track-layout';
 
 import type { BuildingPreset } from '@/buildings/types';
 import {
@@ -8,7 +9,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { ELEVATION } from '@/trains/tracks/types';
 
 type BuildingOptionsPanelProps = {
     preset: BuildingPreset;

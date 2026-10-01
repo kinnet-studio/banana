@@ -1,4 +1,6 @@
-import type { StationManager } from '../src/stations/station-manager';
+import type { StationManager } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+
 import { AutoDriver } from '../src/timetable/auto-driver';
 import type { TimetableJointDirectionManager } from '../src/timetable/timetable-joint-direction-manager';
 import type {
@@ -14,7 +16,6 @@ import {
     type ThrottleSteps,
 } from '../src/trains/formation';
 import type { Train, TrainPosition } from '../src/trains/formation';
-import type { TrackGraph } from '../src/trains/tracks/track';
 
 // ---------------------------------------------------------------------------
 // Mock factories

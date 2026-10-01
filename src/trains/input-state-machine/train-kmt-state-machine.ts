@@ -17,10 +17,10 @@ import {
     convertFromWorld2Viewport,
 } from '@ue-too/board';
 import { Point, PointCal } from '@ue-too/math';
+import { JointDirectionPreferenceMap } from 'track-layout';
+import { TrackGraph } from 'track-layout';
 
 import { Formation, Train, TrainPosition } from '../formation';
-import { JointDirectionPreferenceMap } from '../tracks/joint-direction-preference-map';
-import { TrackGraph } from '../tracks/track';
 
 export type TrainPlacementStates = 'IDLE' | 'HOVER_FOR_PLACEMENT';
 

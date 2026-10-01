@@ -12,6 +12,11 @@ import { Point, PointCal } from '@ue-too/math';
 import { UPDATE_PRIORITY } from 'pixi.js';
 import { toast } from 'sonner';
 import Stats from 'stats.js';
+import { StationManager } from 'track-layout';
+import { TrackAlignedPlatformManager } from 'track-layout';
+import { JointDirectionPreferenceMap } from 'track-layout';
+import type { TrackSegmentWithCollision } from 'track-layout';
+import { intersectionSatisfiesVerticalClearance } from 'track-layout';
 
 import { BuildingManager, BuildingRenderSystem } from '@/buildings';
 import i18n from '@/i18n';
@@ -35,13 +40,11 @@ import {
     SingleSpinePlacementEngine,
     createSingleSpinePlacementStateMachine,
 } from '@/stations/single-spine-placement-state-machine';
-import { StationManager } from '@/stations/station-manager';
 import {
     StationPlacementEngine,
     StationPlacementStateMachine,
 } from '@/stations/station-placement-state-machine';
 import { StationRenderSystem } from '@/stations/station-render-system';
-import { TrackAlignedPlatformManager } from '@/stations/track-aligned-platform-manager';
 import { TrackAlignedPlatformRenderSystem } from '@/stations/track-aligned-platform-render-system';
 import { TerrainData } from '@/terrain/terrain-data';
 import { TerrainRenderSystem } from '@/terrain/terrain-render-system';
@@ -75,7 +78,6 @@ import {
 import { createLayoutStateMachine } from '@/trains/input-state-machine/utils';
 import { StationPresenceDetector } from '@/trains/station-presence-detector';
 import { DebugOverlayRenderSystem } from '@/trains/tracks/debug-overlay-render-system';
-import { JointDirectionPreferenceMap } from '@/trains/tracks/joint-direction-preference-map';
 import { JointDirectionRenderSystem } from '@/trains/tracks/joint-direction-render-system';
 import {
     type ParallelTrackOptions,
@@ -84,8 +86,6 @@ import {
     generateProceduralTrackPath,
 } from '@/trains/tracks/procedural-tracks';
 import { TrackRenderSystem } from '@/trains/tracks/render-system';
-import type { TrackSegmentWithCollision } from '@/trains/tracks/types';
-import { intersectionSatisfiesVerticalClearance } from '@/trains/tracks/utils';
 import { TrainManager } from '@/trains/train-manager';
 import { TrainRenderSystem } from '@/trains/train-render-system';
 import { WorldRenderSystem } from '@/world-render-system';

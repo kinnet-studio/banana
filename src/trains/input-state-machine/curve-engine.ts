@@ -16,15 +16,15 @@ import {
 import { BCurve } from '@ue-too/curve';
 import { type Point, directionAlignedToTangent } from '@ue-too/math';
 import { PointCal } from '@ue-too/math';
-
-import { PreviewCurveCalculator, TENSION_STEP } from '../tracks/new-joint';
-import { TrackGraph } from '../tracks/track';
+import { TrackGraph } from 'track-layout';
 import {
     ELEVATION,
     ProjectionPositiveResult,
     ProjectionResult,
     TrackSegmentDrawData,
-} from '../tracks/types';
+} from 'track-layout';
+
+import { PreviewCurveCalculator, TENSION_STEP } from '../tracks/new-joint';
 import { LayoutContext } from './layout-kmt-state-machine';
 import { NewJointType } from './types';
 

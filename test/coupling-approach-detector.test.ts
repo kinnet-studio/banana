@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
+import type { TrackGraph } from 'track-layout';
 
 import { CouplingApproachDetector } from '../src/trains/coupling-approach-detector';
 import type {
@@ -7,7 +8,6 @@ import type {
     TrainPosition,
 } from '../src/trains/formation';
 import { OccupancyRegistry } from '../src/trains/occupancy-registry';
-import type { TrackGraph } from '../src/trains/tracks/track';
 import type { PlacedTrainEntry } from '../src/trains/train-manager';
 
 // ---------------------------------------------------------------------------

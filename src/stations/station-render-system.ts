@@ -1,14 +1,13 @@
 import type { Point } from '@ue-too/math';
 import { PointCal } from '@ue-too/math';
 import { Container, Graphics, MeshSimple, Texture } from 'pixi.js';
+import { LEVEL_HEIGHT } from 'track-layout';
+import type { TrackGraph } from 'track-layout';
+import type { StationManager } from 'track-layout';
+import type { Platform } from 'track-layout';
 
-import { LEVEL_HEIGHT } from '@/trains/tracks/constants';
 import type { TrackTextureRenderer } from '@/trains/tracks/render-system';
-import type { TrackGraph } from '@/trains/tracks/track';
 import type { WorldRenderSystem } from '@/world-render-system';
-
-import type { StationManager } from './station-manager';
-import type { Platform } from './types';
 
 /** World-space length per one repeat of the platform texture along the curve. */
 const PLATFORM_TEXTURE_TILE_LEN = 2;

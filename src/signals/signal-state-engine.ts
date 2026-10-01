@@ -9,10 +9,11 @@
  *
  * @module signals/signal-state-engine
  */
+import type { TrackGraph } from 'track-layout';
+
 import type { TrainPosition } from '@/trains/formation';
 import type { JointDirectionManager } from '@/trains/input-state-machine/train-kmt-state-machine';
 import type { OccupancyRegistry } from '@/trains/occupancy-registry';
-import type { TrackGraph } from '@/trains/tracks/track';
 import type { PlacedTrainEntry } from '@/trains/train-manager';
 
 import type { BlockSignalManager } from './block-signal-manager';

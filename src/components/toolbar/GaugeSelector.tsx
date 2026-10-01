@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { GAUGE_PRESETS } from 'track-layout';
 
 import {
     Select,
@@ -7,7 +8,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { GAUGE_PRESETS } from '@/trains/tracks/gauge-presets';
 
 type GaugeSelectorProps = {
     gaugePresetId: string;
