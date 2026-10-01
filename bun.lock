@@ -42,7 +42,7 @@
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
         "three": "^0.183.2",
-        "track-layout": "^0.1.0",
+        "track-layout": "^0.2.0",
         "zustand": "^5.0.12",
       },
       "devDependencies": {
@@ -641,7 +641,7 @@
 
     "tinyqueue": ["tinyqueue@3.0.0", "", {}, "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g=="],
 
-    "track-layout": ["track-layout@0.1.0", "", { "peerDependencies": { "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-maYt11mIsVCreIxx0guAS1fWdUUw6mLpKZaFRE9gxqb5Pv/TgBXLcR7cyiwzFTDVM7Y9Kn16umi0swCF26Iwdw=="],
+    "track-layout": ["track-layout@0.2.0", "", { "peerDependencies": { "@ue-too/being": "^0.19.0", "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" }, "optionalPeers": ["@ue-too/being"] }, "sha512-0mSx8q2hwEEfwG9NWUpSXxogOnNqXT/XQKE9F0LGoOMpgOHQa4tDT0QXmIa0iwGI6mUh1R9g3i/O72UDpe8zmA=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

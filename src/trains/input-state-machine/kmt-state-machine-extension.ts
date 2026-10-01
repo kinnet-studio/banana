@@ -21,20 +21,21 @@ import {
     ReadyToPanViaScrollWheelState,
     ReadyToPanViaSpaceBarState,
 } from '@ue-too/board';
+import { CatenaryLayoutStateMachine } from 'track-layout/editing';
+import { CurveCreationEngine } from 'track-layout/editing';
+import { DuplicateToSideStateMachine } from 'track-layout/editing';
+import type { JointDirectionStateMachine } from 'track-layout/editing';
+import {
+    LayoutContext,
+    LayoutEvents,
+    LayoutStateMachine,
+} from 'track-layout/editing';
+import { createLayoutStateMachine } from 'track-layout/editing';
 
 import type { DualSpinePlacementStateMachine } from '@/stations/dual-spine-placement-state-machine';
 import type { SingleSpinePlacementStateMachine } from '@/stations/single-spine-placement-state-machine';
 import { StationPlacementStateMachine } from '@/stations/station-placement-state-machine';
 
-import { CatenaryLayoutStateMachine } from './catenary-layout-state-machine';
-import { CurveCreationEngine } from './curve-engine';
-import { DuplicateToSideStateMachine } from './duplicate-to-side-state-machine';
-import type { JointDirectionStateMachine } from './joint-direction-state-machine';
-import {
-    LayoutContext,
-    LayoutEvents,
-    LayoutStateMachine,
-} from './layout-kmt-state-machine';
 import {
     ToolSwitcherContext,
     ToolSwitcherEvents,
@@ -42,7 +43,6 @@ import {
     createToolSwitcherStateMachine,
 } from './tool-switcher-state-machine';
 import { TrainPlacementStateMachine } from './train-kmt-state-machine';
-import { createLayoutStateMachine } from './utils';
 
 type KmtStateMachineEventWithToolSwitcher = KmtInputEventMapping &
     ToolSwitcherEvents & {

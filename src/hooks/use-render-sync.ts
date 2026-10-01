@@ -30,26 +30,25 @@ export function useRenderSync(app: BananaAppComponents | null): void {
                     state.showPreviewCurveArcs;
             }
             if (state.trackStyle !== prev.trackStyle) {
-                app.curveEngine.trackGraph.setNewSegmentStyle({
+                app.trackGraph.setNewSegmentStyle({
                     trackStyle: state.trackStyle,
                 });
             }
             if (state.electrified !== prev.electrified) {
-                app.curveEngine.trackGraph.setNewSegmentStyle({
+                app.trackGraph.setNewSegmentStyle({
                     electrified: state.electrified,
                 });
             }
             if (state.projectionBuffer !== prev.projectionBuffer) {
-                app.curveEngine.trackGraph.projectionBuffer =
-                    state.projectionBuffer;
+                app.trackGraph.projectionBuffer = state.projectionBuffer;
             }
             if (state.bed !== prev.bed) {
-                app.curveEngine.trackGraph.setNewSegmentStyle({
+                app.trackGraph.setNewSegmentStyle({
                     bed: state.bed,
                 });
             }
             if (state.bedWidth !== prev.bedWidth) {
-                app.curveEngine.trackGraph.setNewSegmentStyle({
+                app.trackGraph.setNewSegmentStyle({
                     bedWidth: state.bedWidth,
                 });
             }
@@ -118,13 +117,13 @@ function applyAll(
     app.buildingRenderSystem.sunAngle = state.sunAngle;
     app.trackRenderSystem.showElevationGradient = state.showElevationGradient;
     app.trackRenderSystem.showPreviewCurveArcs = state.showPreviewCurveArcs;
-    app.curveEngine.trackGraph.setNewSegmentStyle({
+    app.trackGraph.setNewSegmentStyle({
         trackStyle: state.trackStyle,
         electrified: state.electrified,
         bed: state.bed,
         bedWidth: state.bedWidth,
     });
-    app.curveEngine.trackGraph.projectionBuffer = state.projectionBuffer;
+    app.trackGraph.projectionBuffer = state.projectionBuffer;
     app.terrainRenderSystem.xray = state.terrainXray;
     app.terrainRenderSystem.fillVisible = state.terrainFillVisible;
     app.terrainRenderSystem.fillOpacity = state.terrainOpacity;

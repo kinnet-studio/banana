@@ -9,21 +9,20 @@ import {
     TemplateState,
     TemplateStateMachine,
 } from '@ue-too/being';
+import { CatenaryLayoutStateMachine } from 'track-layout/editing';
+import { DuplicateToSideStateMachine } from 'track-layout/editing';
+import type { JointDirectionStateMachine } from 'track-layout/editing';
+import { LayoutStateMachine } from 'track-layout/editing';
+import {
+    CurveCreationEngine,
+    createLayoutStateMachine,
+} from 'track-layout/editing';
 
 import type { DualSpinePlacementStateMachine } from '@/stations/dual-spine-placement-state-machine';
 import type { SingleSpinePlacementStateMachine } from '@/stations/single-spine-placement-state-machine';
 import { StationPlacementStateMachine } from '@/stations/station-placement-state-machine';
 
-import { CatenaryLayoutStateMachine } from './catenary-layout-state-machine';
-import { DuplicateToSideStateMachine } from './duplicate-to-side-state-machine';
-import type { JointDirectionStateMachine } from './joint-direction-state-machine';
-import { LayoutStateMachine } from './layout-kmt-state-machine';
-
-import {
-    CurveCreationEngine,
-    TrainPlacementStateMachine,
-    createLayoutStateMachine,
-} from '.';
+import { TrainPlacementStateMachine } from '.';
 
 export const TOOL_SWITCHER_STATES = [
     'LAYOUT',

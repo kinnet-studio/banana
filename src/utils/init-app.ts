@@ -13,10 +13,19 @@ import { UPDATE_PRIORITY } from 'pixi.js';
 import { toast } from 'sonner';
 import Stats from 'stats.js';
 import { StationManager } from 'track-layout';
+import { TrackGraph } from 'track-layout';
 import { TrackAlignedPlatformManager } from 'track-layout';
 import { JointDirectionPreferenceMap } from 'track-layout';
 import type { TrackSegmentWithCollision } from 'track-layout';
 import { intersectionSatisfiesVerticalClearance } from 'track-layout';
+import { CatenaryLayoutEngine } from 'track-layout/editing';
+import { createCatenaryLayoutStateMachine } from 'track-layout/editing';
+import { CurveCreationEngine } from 'track-layout/editing';
+import { DuplicateToSideEngine } from 'track-layout/editing';
+import { createDuplicateToSideStateMachine } from 'track-layout/editing';
+import { createJointDirectionStateMachine } from 'track-layout/editing';
+import { LayoutStateMachine } from 'track-layout/editing';
+import { createLayoutStateMachine } from 'track-layout/editing';
 
 import { BuildingManager, BuildingRenderSystem } from '@/buildings';
 import i18n from '@/i18n';
@@ -58,24 +67,16 @@ import { CollisionGuard, CrossingMap } from '@/trains/collision-guard';
 import { Train, type TrainPosition } from '@/trains/formation';
 import { FormationManager } from '@/trains/formation-manager';
 import { FormationTemplateStore } from '@/trains/formation-template-store';
-import { CatenaryLayoutEngine } from '@/trains/input-state-machine/catenary-layout-engine';
-import { createCatenaryLayoutStateMachine } from '@/trains/input-state-machine/catenary-layout-state-machine';
-import { CurveCreationEngine } from '@/trains/input-state-machine/curve-engine';
-import { DuplicateToSideEngine } from '@/trains/input-state-machine/duplicate-to-side-engine';
-import { createDuplicateToSideStateMachine } from '@/trains/input-state-machine/duplicate-to-side-state-machine';
-import { createJointDirectionStateMachine } from '@/trains/input-state-machine/joint-direction-state-machine';
 import {
     KmtExpandedStateMachine,
     createKmtInputStateMachineExpansion,
 } from '@/trains/input-state-machine/kmt-state-machine-extension';
-import { LayoutStateMachine } from '@/trains/input-state-machine/layout-kmt-state-machine';
 import type { JointDirectionManager } from '@/trains/input-state-machine/train-kmt-state-machine';
 import {
     DefaultJointDirectionManager,
     TrainPlacementEngine,
     TrainPlacementStateMachine,
 } from '@/trains/input-state-machine/train-kmt-state-machine';
-import { createLayoutStateMachine } from '@/trains/input-state-machine/utils';
 import { StationPresenceDetector } from '@/trains/station-presence-detector';
 import { DebugOverlayRenderSystem } from '@/trains/tracks/debug-overlay-render-system';
 import { JointDirectionRenderSystem } from '@/trains/tracks/joint-direction-render-system';
@@ -88,6 +89,7 @@ import {
 import { TrackRenderSystem } from '@/trains/tracks/render-system';
 import { TrainManager } from '@/trains/train-manager';
 import { TrainRenderSystem } from '@/trains/train-render-system';
+import { createWindowToWorld } from '@/utils/window-to-world';
 import { WorldRenderSystem } from '@/world-render-system';
 
 export type FocusAnimationParams = {
@@ -284,6 +286,7 @@ export type BananaAppComponents = BaseAppComponents & {
     /** Mutable ref so the TimeManager callback always uses the current timetable manager. */
     timetableRef: { current: TimetableManager };
     curveEngine: CurveCreationEngine;
+    trackGraph: TrackGraph;
     duplicateToSideEngine: DuplicateToSideEngine;
     catenaryLayoutEngine: CatenaryLayoutEngine;
     worldRenderSystem: WorldRenderSystem;
@@ -536,10 +539,12 @@ export const initApp = async (
         UPDATE_PRIORITY.HIGH
     );
 
-    const curveEngine = new CurveCreationEngine(
+    const trackGraph = new TrackGraph();
+    const windowToWorld = createWindowToWorld(
         baseComponents.canvasProxy,
         baseComponents.camera
     );
+    const curveEngine = new CurveCreationEngine(trackGraph, windowToWorld);
     const layoutSubStateMachine = createLayoutStateMachine(curveEngine);
     const worldRenderSystem = new WorldRenderSystem();
 
@@ -558,23 +563,20 @@ export const initApp = async (
     );
 
     const duplicateToSideEngine = new DuplicateToSideEngine(
-        curveEngine.trackGraph,
-        position => curveEngine.convert2WorldPosition(position)
+        trackGraph,
+        windowToWorld
     );
     const duplicateSubStateMachine = createDuplicateToSideStateMachine(
         duplicateToSideEngine
     );
 
     const catenaryLayoutEngine = new CatenaryLayoutEngine(
-        curveEngine.trackGraph,
-        position => curveEngine.convert2WorldPosition(position)
+        trackGraph,
+        windowToWorld
     );
     const catenarySubStateMachine =
         createCatenaryLayoutStateMachine(catenaryLayoutEngine);
 
-    const jointDirectionSubStateMachine = createJointDirectionStateMachine();
-
-    const trackGraph = curveEngine.trackGraph;
     catenaryLayoutEngine.onCommit(({ segmentNumber, side }) => {
         trackGraph.setSegmentStyle(segmentNumber, {
             electrified: true,
@@ -590,12 +592,10 @@ export const initApp = async (
         baseComponents.camera
     );
 
-    jointDirectionSubStateMachine.setContext({
+    const jointDirectionSubStateMachine = createJointDirectionStateMachine({
         setup: () => {},
         cleanup: () => {},
-        convert2WorldPosition: pos => {
-            return curveEngine.convert2WorldPosition(pos);
-        },
+        convert2WorldPosition: windowToWorld,
         getHoveredSwitchJoint: worldPos => {
             const joints = trackGraph.getJoints();
             let closestJoint: number | null = null;
@@ -657,7 +657,7 @@ export const initApp = async (
 
     const trackRenderSystem = new TrackRenderSystem(
         worldRenderSystem,
-        curveEngine.trackGraph.trackCurveManager,
+        trackGraph.trackCurveManager,
         curveEngine,
         baseComponents.camera,
         { renderer: baseComponents.app.renderer },
@@ -675,7 +675,7 @@ export const initApp = async (
     const stationRenderSystem = new StationRenderSystem(
         worldRenderSystem,
         stationManager,
-        curveEngine.trackGraph,
+        trackGraph,
         { renderer: baseComponents.app.renderer }
     );
 
@@ -684,11 +684,11 @@ export const initApp = async (
         new TrackAlignedPlatformRenderSystem(
             worldRenderSystem,
             trackAlignedPlatformManager,
-            curveEngine.trackGraph,
+            trackGraph,
             { renderer: baseComponents.app.renderer }
         );
 
-    curveEngine.trackGraph.setSegmentProtectionCheck(segNum => {
+    trackGraph.setSegmentProtectionCheck(segNum => {
         return (
             trackAlignedPlatformManager.getPlatformsBySegment(segNum).length > 0
         );
@@ -758,7 +758,7 @@ export const initApp = async (
 
     const singleSpineEngine = new SingleSpinePlacementEngine(
         baseComponents.canvasProxy,
-        curveEngine.trackGraph,
+        trackGraph,
         baseComponents.camera,
         stationManager,
         trackAlignedPlatformManager,
@@ -770,7 +770,7 @@ export const initApp = async (
 
     const dualSpineEngine = new DualSpinePlacementEngine(
         baseComponents.canvasProxy,
-        curveEngine.trackGraph,
+        trackGraph,
         baseComponents.camera,
         stationManager,
         trackAlignedPlatformManager,
@@ -1010,7 +1010,7 @@ export const initApp = async (
     baseComponents.kmtParser.stateMachine = kmtInputStateMachine;
     baseComponents.kmtInputStateMachine = kmtInputStateMachine;
 
-    curveEngine.trackGraph.onSegmentSplit(info => {
+    trackGraph.onSegmentSplit(info => {
         for (const { train } of trainManager.getPlacedTrains()) {
             train.remapOnSegmentSplit(info);
         }
@@ -1018,7 +1018,7 @@ export const initApp = async (
         blockSignalManager.handleSegmentSplit(info);
     });
 
-    curveEngine.trackGraph.onSegmentRemoved(segNum => {
+    trackGraph.onSegmentRemoved(segNum => {
         blockSignalManager.handleSegmentRemoved(segNum);
     });
 
@@ -1119,6 +1119,7 @@ export const initApp = async (
     return {
         ...baseComponents,
         curveEngine,
+        trackGraph,
         duplicateToSideEngine,
         catenaryLayoutEngine,
         worldRenderSystem,
