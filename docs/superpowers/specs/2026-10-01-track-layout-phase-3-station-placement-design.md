@@ -1,7 +1,7 @@
 # track-layout phase 3: station placement — design
 
 - **Date:** 2026-10-01
-- **Status:** Design approved in brainstorming; written spec awaiting the owner's review
+- **Status:** Approved design; ready for an implementation plan
 - **Parent spec:** track-layout `docs/superpowers/specs/2026-10-01-track-layout-extraction-design.md` (phases 2–4 outline)
 - **Brief:** [phase 3 brief](./2026-10-01-track-layout-phase-3-station-placement-brief.md). The [handoff](./2026-10-01-track-layout-extraction-handoff.md) covers the workflow, the tools and the pitfalls.
 - **Source:** banana `main` at `13f1062` (phases 1 and 2 merged), track-layout `main` at `0e438d6`
