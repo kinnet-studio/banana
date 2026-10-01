@@ -5,8 +5,6 @@ import {
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
 
-import type { ShiftTemplateManager } from '@/timetable/shift-template-manager';
-import type { ShiftTemplate } from '@/timetable/types';
 import { GenericEntityManager } from '@/utils';
 
 import { nextStopPositionId } from './stop-position-utils';
@@ -229,27 +227,6 @@ export class TrackAlignedPlatformManager {
                 `TrackAlignedPlatformManager: tValue ${input.tValue} is outside spine entry range [${lo}, ${hi}] for segment ${input.trackSegmentId}`
             );
         }
-    }
-
-    findShiftsReferencingStopPosition(
-        platformId: number,
-        stopPositionId: number,
-        shiftTemplateManager: ShiftTemplateManager
-    ): ShiftTemplate[] {
-        const result: ShiftTemplate[] = [];
-        for (const template of shiftTemplateManager.getAllTemplates()) {
-            for (const stop of template.stops) {
-                if (
-                    stop.platformKind === 'trackAligned' &&
-                    stop.platformId === platformId &&
-                    stop.stopPositionId === stopPositionId
-                ) {
-                    result.push(template);
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     // -----------------------------------------------------------------------
