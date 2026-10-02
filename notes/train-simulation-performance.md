@@ -50,6 +50,6 @@ With 10 trains, rough breakdown:
 - `src/trains/formation.ts` — Train, Formation, Car classes + `getPosition()`
 - `src/trains/train-manager.ts` — Train lifecycle management
 - `src/time/time-manager.ts` — Main game loop timer
-- `src/world-render-system.ts` — Elevation-based draw ordering
+- `track-layout/pixi` (`WorldRenderSystem`) — Elevation-based draw ordering
 - `src/utils/init-app.ts` — App initialization & loop hookup
 - `src/trains/input-state-machine/train-kmt-state-machine.ts` — Joint direction manager & train placement

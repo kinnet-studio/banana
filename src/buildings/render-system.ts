@@ -2,8 +2,7 @@ import type { Point } from '@ue-too/math';
 import { Graphics } from 'pixi.js';
 import { LEVEL_HEIGHT } from 'track-layout';
 import { ELEVATION, ELEVATION_VALUES } from 'track-layout';
-
-import { WorldRenderSystem } from '@/world-render-system';
+import { WorldRenderSystem } from 'track-layout/pixi';
 
 import { BuildingManager } from './building-manager';
 import type { BuildingData } from './types';

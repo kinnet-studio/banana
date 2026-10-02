@@ -9,10 +9,10 @@ import type { StationManager } from 'track-layout';
 import type { TrackAlignedPlatformManager } from 'track-layout';
 import { findPresetByWidth } from 'track-layout';
 import type { TrackGraph } from 'track-layout';
+import { WorldRenderSystem } from 'track-layout/pixi';
 
 import type { ProximityDetector } from '@/trains/proximity-detector';
 import type { PlacedTrainEntry } from '@/trains/train-manager';
-import { WorldRenderSystem } from '@/world-render-system';
 
 /** Base radius of the circle (world units); effective size = this / zoomLevel for constant screen size. */
 const LABEL_CIRCLE_RADIUS = 8;
