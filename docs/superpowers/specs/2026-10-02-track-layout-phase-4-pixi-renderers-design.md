@@ -37,7 +37,7 @@ The new layout editor can then draw a layout without a renderer of its own. Bana
 | Peers                  | `pixi.js` at exactly `8.20.1`, optional in `peerDependenciesMeta`. That's the version `@ue-too/board-pixi-integration` requires. It is also a dev dependency at the same version.                                                           |
 | Layer host             | Banana's `WorldRenderSystem` moves into the package unchanged as the default host and implements a new `LayerHost` interface. The moved renderers take `LayerHost`. Banana's other renderers import the class from the package.             |
 | Editing previews       | The track renderer takes the editing engines as optional preview sources. Their interfaces are spelled out structurally, so `track-layout/pixi` needs neither `track-layout/editing` nor `@ue-too/being`, at runtime or when type-checking. |
-| Terrain                | An optional `TerrainSampler` (`getHeight(x, y)`). With none, there are no tunnels or cuttings.                                                                                                                                              |
+| Terrain                | An optional `TerrainSampler` (`getHeight(x, y)`). With none, the ground is flat at height 0.                                                                                                                                                |
 | Station drawing        | The station and platform renderers subscribe to their managers' add and remove events themselves, as the phase 3 spec planned. Banana's `wireStationRenderers` goes.                                                                        |
 | `TrackTextureRenderer` | Moves with the package as an exported type. Banana's train and signal renderers import it from there.                                                                                                                                       |
 | Shadow helpers         | `shadows` and `clearShadowCache` in banana's `src/utils.ts` are dead code. Nothing calls `shadows`, so the cache `clearShadowCache` empties is always empty. They are deleted, not moved.                                                   |
@@ -201,7 +201,7 @@ Notes:
     - `export type TerrainSampler = { getHeight(x: number, y: number): number };` in `tunnel-geometry.ts`, which the track renderer already imports.
     - It replaces `Pick<TerrainData, 'getHeight'>` in `tunnel-geometry.ts`, and `TerrainData` in the track renderer.
     - Banana passes its `TerrainData`, which already fits.
-    - With no sampler, the renderer behaves as it does today when `terrainData` is `null`: no tunnels and no cuttings.
+    - With no sampler, the renderer behaves as it does today when `terrainData` is `null`: the ground is flat at height 0. Track below ground level gets tunnel walls and a ceiling, and a ramp that crosses ground level gets a cutting and a cover.
 
 4. **Station and platform renderers subscribe to their managers.**
     - `StationRenderSystem` subscribes to `onStationAdded` → `addStation(id)` and `onStationRemoved` → `removeStation(id)` in its constructor. Its constructor is otherwise unchanged:
@@ -235,6 +235,8 @@ Notes:
     - **Track:** `TrackRenderSystem`, `TrackRenderSystemOptions`, `TrackTextureRenderer`, `TerrainSampler`, `CurveCreationPreviewSource`, `DuplicateToSidePreviewSource`, `CatenaryLayoutPreviewSource`
     - **Stations:** `StationRenderSystem`, `TrackAlignedPlatformRenderSystem`
     - **Joints:** `JointDirectionRenderSystem`
+
+    The station and platform renderers import their preview interfaces from `station-placement/preview.ts`, not from the station-placement entry point. The entry point also re-exports the state machines, which import `@ue-too/being`.
 
     Internal, not re-exported by `index.ts`:
     - `geometry-utils.ts` (`ballastHalfWidth`) and `tunnel-geometry.ts`. Tests import them from `src/`.
@@ -288,9 +290,9 @@ The baseline is 0.3.0's 379 tests and a clean typecheck. The plan fixes the new 
 **Test setup.** Every test runs headless; building Pixi containers, graphics and meshes needs no WebGL context. Each test uses:
 
 - a real `TrackGraph` and real managers
-- `RecordingLayerHost`, a test subclass of the real `WorldRenderSystem`. It calls through to every method, and records each key's band, sublayer, bed, shadow, drawable and overlay, so tests can ask `bandOf(key)`, `sublayerOf(key)`, `hasBed(key)`, `hasShadow(key)` and so on.
-- a texture stub: `{ renderer: { textureGenerator: { generateTexture: () => Texture.WHITE } } }`
-- `new DefaultBoardCamera()`, with `setZoomLevel` to drive zoom
+- `RecordingLayerHost`, a test subclass of the real `WorldRenderSystem`. It calls through to every method, and records each key's band, sublayer, bed, shadow, drawable and overlay, so tests can ask `bandOf(key)`, `sublayerOf(key)`, `bedElevationOf(key)`, `shadowElevationOf(key)` and so on.
+- a texture stub: `{ renderer: { textureGenerator: { generateTexture: () => new Texture() } } }`. Each call returns its own texture, because the renderers destroy theirs on cleanup.
+- `new DefaultBoardCamera()`, with `setZoomLevel` to drive zoom. Its zoom event arrives a microtask later, so tests await one after zooming.
 - `layTrack` from the phase 3 test helpers
 
 **Characterization tests.** A failure against unchanged code means the expectation is wrong, never the code.
@@ -308,7 +310,7 @@ The baseline is 0.3.0's 379 tests and a clean typecheck. The plan fixes the new 
     - zoom switches between simplified and detailed track
     - the elevation-gradient toggle
     - setting `sunAngle` rebuilds the shadows
-    - a terrain sampler above the track gives tunnel walls and a ceiling; with no sampler there are none
+    - with no sampler, track below ground level is in a tunnel; a sampler above ground-level track puts it in a tunnel; a ramp crossing the terrain gets a cutting and a cover; track above the terrain gets none
     - curve-engine previews are added, then cleared on the next change and on `undefined`
     - the deletion, duplicate and catenary highlights and the catenary preview
     - a renderer built with no sources draws laid track
@@ -320,19 +322,19 @@ The baseline is 0.3.0's 379 tests and a clean typecheck. The plan fixes the new 
 
 **Tests for the changes:**
 
-- **Change 2:** the track renderer subscribes only to the sources it is given, and the real engines are accepted as sources (a typecheck in the test file).
-- **Change 4,** from the five `wireStationRenderers` cases:
+- **Change 2** (`track-render-sources`): the track renderer subscribes only to the sources it is given, unsubscribes on cleanup, and accepts the real engines as sources (a typecheck in the test file).
+- **Change 4** (`station-render-events`), from the five `wireStationRenderers` cases:
     - a station is drawn when created and removed when destroyed
     - a platform is drawn at its station's elevation
     - the station-delete cascade removes the station's platforms
     - replacing stations as a scene load does, in its order
     - nothing is drawn or removed after `cleanup()`
-- **Change 6:** changing each of the five style fields rebuilds the segment's pieces with the new style, and leaves other segments' containers untouched.
+- **Change 6** (`track-restyle`): changing each of the five style fields rebuilds the segment's pieces with the new style, keeps the zoom level's visibility and the elevation-gradient setting, and leaves other segments' containers untouched.
 - **Changes 1, 3, 5 and 7** are covered by the characterization tests, the typecheck and the entry-point test.
 - **Entry point:**
     - every listed export resolves from `track-layout/pixi`, and the root entry doesn't export them
-    - the built `dist/pixi` JavaScript imports nothing from `dist/editing` and nothing from `@ue-too/being`
-    - the built `dist/pixi` declarations reach `@ue-too/being` through none of their imports
+    - `src/pixi/` imports from outside the model only `editing/preview-types.ts` and `station-placement/preview.ts`, both with `import type`, and none of those files imports `@ue-too/being`. So neither the built JavaScript nor the declarations reach the editing code or `@ue-too/being`.
+    - The plan also checks the build itself: `dist/pixi/*.js` imports only `../index.js`, its own modules, `@ue-too/math` and `pixi.js`.
 
 **Moved:** the 8 `tunnel-geometry` tests, unchanged apart from their import path.
 
@@ -395,7 +397,10 @@ Restyling laid track can't be play-tested, because banana has no tool for it. Ch
 - **Draw data and `orderTest` live in `TrackCurveManager`.** They're pure and render-oriented, and could move toward `track-layout/pixi` once a second renderer needs them differently.
 - **`TrackCurveManager.experimental()` builds draw data without style.** Only `TrackGraph`'s internal `_drawData` uses it.
 - **`reassignPlatform` redraws by removing and re-adding** stations. An update event could replace that.
-- **The model still logs debug output** (`console.log` in `connectJoints`, `removeTrackSegment` and `getTrackOrder`, and `console.time('sort')`).
+- **The model still logs debug output** (`console.log` in `connectJoints`, `removeTrackSegment` and `getTrackOrder`, `console.time('sort')`, and "something wrong in the sorting of track segments draw order"). `removeTrackSegment` logs the whole segment object, so test output is long.
+- **`StationRenderSystem.cleanup()` leaves its placement preview** in the host, unlike the platform renderer's. The characterization tests pin this.
+- **`JointDirectionRenderSystem.dispose()` destroys its overlay without calling `removeOverlayContainer`.** Pinned the same way.
+- **Pixi logs a deprecation warning** ("addChild: Only Containers will be allowed to add children") when the track renderer builds tunnel walls, which adds a child to a mesh.
 - **Banana's `CLAUDE.md`** lists `src/stations/station-placement-state-machine.ts` (phase 3) and `layout-kmt-state-machine.ts` (phase 2) as examples, though both moved to track-layout. That's the owner's call, and this phase doesn't touch it.
 
 ## Risks
