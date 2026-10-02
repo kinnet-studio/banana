@@ -12,9 +12,10 @@
 import { Container, Graphics, Sprite, Texture } from 'pixi.js';
 import type { TrackGraph } from 'track-layout';
 import { ELEVATION } from 'track-layout';
-
-import type { TrackTextureRenderer } from '@/trains/tracks/render-system';
-import type { WorldRenderSystem } from '@/world-render-system';
+import type {
+    TrackTextureRenderer,
+    WorldRenderSystem,
+} from 'track-layout/pixi';
 
 import type { BlockSignalManager } from './block-signal-manager';
 import type { SignalStateEngine } from './signal-state-engine';

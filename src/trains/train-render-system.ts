@@ -7,9 +7,13 @@ import {
     Texture,
 } from 'pixi.js';
 import { TrackGraph } from 'track-layout';
+import {
+    TrackRenderSystem,
+    type TrackTextureRenderer,
+    WorldRenderSystem,
+} from 'track-layout/pixi';
 
 import type { SourceSinkTicker, TransferManager } from '@/resources';
-import { WorldRenderSystem } from '@/world-render-system';
 
 import type { CarImageRegistry } from './car-image-registry';
 import { Car } from './cars';
@@ -19,10 +23,6 @@ import { Train, TrainPosition } from './formation';
 import { OccupancyRegistry } from './occupancy-registry';
 import { ProximityDetector } from './proximity-detector';
 import { StationPresenceDetector } from './station-presence-detector';
-import {
-    TrackRenderSystem,
-    type TrackTextureRenderer,
-} from './tracks/render-system';
 import type { PlacedTrainEntry } from './train-manager';
 
 const BOGIE_RADIUS = 1.067 / 2;

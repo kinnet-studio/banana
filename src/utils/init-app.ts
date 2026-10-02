@@ -27,6 +27,13 @@ import { createJointDirectionStateMachine } from 'track-layout/editing';
 import { LayoutStateMachine } from 'track-layout/editing';
 import { createLayoutStateMachine } from 'track-layout/editing';
 import {
+    JointDirectionRenderSystem,
+    StationRenderSystem,
+    TrackAlignedPlatformRenderSystem,
+    TrackRenderSystem,
+    WorldRenderSystem,
+} from 'track-layout/pixi';
+import {
     DualSpinePlacementEngine,
     SingleSpinePlacementEngine,
     StationPlacementEngine,
@@ -49,9 +56,6 @@ import {
     SignalRenderSystem,
     SignalStateEngine,
 } from '@/signals';
-import { StationRenderSystem } from '@/stations/station-render-system';
-import { wireStationRenderers } from '@/stations/station-render-wiring';
-import { TrackAlignedPlatformRenderSystem } from '@/stations/track-aligned-platform-render-system';
 import { useGaugeStore } from '@/stores/gauge-store';
 import { TerrainData } from '@/terrain/terrain-data';
 import { TerrainRenderSystem } from '@/terrain/terrain-render-system';
@@ -77,18 +81,15 @@ import {
 } from '@/trains/input-state-machine/train-kmt-state-machine';
 import { StationPresenceDetector } from '@/trains/station-presence-detector';
 import { DebugOverlayRenderSystem } from '@/trains/tracks/debug-overlay-render-system';
-import { JointDirectionRenderSystem } from '@/trains/tracks/joint-direction-render-system';
 import {
     type ParallelTrackOptions,
     type ProceduralTrackOptions,
     generateParallelTracks,
     generateProceduralTrackPath,
 } from '@/trains/tracks/procedural-tracks';
-import { TrackRenderSystem } from '@/trains/tracks/render-system';
 import { TrainManager } from '@/trains/train-manager';
 import { TrainRenderSystem } from '@/trains/train-render-system';
 import { createWindowToWorld } from '@/utils/window-to-world';
-import { WorldRenderSystem } from '@/world-render-system';
 
 export type FocusAnimationParams = {
     startWorldPoint: Point;
@@ -656,12 +657,14 @@ export const initApp = async (
     const trackRenderSystem = new TrackRenderSystem(
         worldRenderSystem,
         trackGraph.trackCurveManager,
-        curveEngine,
         baseComponents.camera,
-        { renderer: baseComponents.app.renderer },
-        terrainData,
-        duplicateToSideEngine,
-        catenaryLayoutEngine
+        {
+            textureRenderer: { renderer: baseComponents.app.renderer },
+            terrain: terrainData,
+            curveCreation: curveEngine,
+            duplicateToSide: duplicateToSideEngine,
+            catenaryLayout: catenaryLayoutEngine,
+        }
     );
     const buildingManager = new BuildingManager();
     const buildingRenderSystem = new BuildingRenderSystem(
@@ -682,18 +685,10 @@ export const initApp = async (
         new TrackAlignedPlatformRenderSystem(
             worldRenderSystem,
             trackAlignedPlatformManager,
+            stationManager,
             trackGraph,
             { renderer: baseComponents.app.renderer }
         );
-
-    baseComponents.cleanups.push(
-        wireStationRenderers(
-            stationManager,
-            trackAlignedPlatformManager,
-            stationRenderSystem,
-            trackAlignedPlatformRenderSystem
-        )
-    );
 
     trackGraph.setSegmentProtectionCheck(segNum => {
         return (

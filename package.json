@@ -51,7 +51,7 @@
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
         "three": "^0.183.2",
-        "track-layout": "^0.3.0",
+        "track-layout": "../track-layout/.pack/track-layout-local.tgz",
         "zustand": "^5.0.12"
     },
     "devDependencies": {

@@ -31,7 +31,6 @@ import {
     serializeTrainData,
     validateSerializedTrainData,
 } from '@/trains/train-serialization';
-import { clearShadowCache } from '@/utils';
 import type { BananaAppComponents } from '@/utils/init-app';
 
 export type SerializedCarCargo = {
@@ -96,9 +95,6 @@ export async function deserializeSceneData(
     data: SerializedSceneData,
     options?: { onProgress?: (loaded: number, total: number) => void }
 ): Promise<void> {
-    // Clear caches that reference old track geometry before replacing tracks.
-    clearShadowCache();
-
     // Load tracks first so train positions can resolve to points (batched)
     await app.trackGraph.loadFromSerializedData(data.tracks, {
         onProgress: options?.onProgress,
@@ -128,10 +124,10 @@ export async function deserializeSceneData(
         app.blockSignalManager.deserialize(data.signals);
     }
 
-    // Load stations before track-aligned platforms: wireStationRenderers
+    // Load stations before track-aligned platforms: the platform renderer
     // draws each platform at its station's elevation, so the station must
-    // exist first. The managers' add and remove events add and remove the
-    // visuals.
+    // exist first. The renderers add and remove the visuals on the managers'
+    // add and remove events.
     if (data.stations) {
         const restored = StationManager.deserialize(data.stations);
         // Replace the current station manager's state

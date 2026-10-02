@@ -42,7 +42,7 @@
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
         "three": "^0.183.2",
-        "track-layout": "^0.3.0",
+        "track-layout": "../track-layout/.pack/track-layout-local.tgz",
         "zustand": "^5.0.12",
       },
       "devDependencies": {
@@ -641,7 +641,7 @@
 
     "tinyqueue": ["tinyqueue@3.0.0", "", {}, "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g=="],
 
-    "track-layout": ["track-layout@0.3.0", "", { "peerDependencies": { "@ue-too/being": "^0.19.0", "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0" }, "optionalPeers": ["@ue-too/being"] }, "sha512-WEALBCRW7JGoXfcNDgzbDse26LbtuWD8uwe22s/taSiHhTUufN4mc8D++/JpywvJ6QdzCXpyElcEOT0smvunWw=="],
+    "track-layout": ["track-layout@../track-layout/.pack/track-layout-local.tgz", { "peerDependencies": { "@ue-too/being": "^0.19.0", "@ue-too/board": "^0.19.0", "@ue-too/curve": "^0.19.0", "@ue-too/math": "^0.19.0", "pixi.js": "8.20.1" }, "optionalPeers": ["@ue-too/being", "pixi.js"] }, "sha512-K3/FPHXKizjxvE6EMoFwdMooFQUyeqAKj9uOvAb0vuLbqbLKLHWVckVXgEiq3F44+VYhuClKofzMsh9Qt56Jgg=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

@@ -23,8 +23,7 @@ import {
 } from 'pixi.js';
 import { LEVEL_HEIGHT } from 'track-layout';
 import { ELEVATION_VALUES } from 'track-layout';
-
-import type { WorldRenderSystem } from '@/world-render-system';
+import type { WorldRenderSystem } from 'track-layout/pixi';
 
 import { extractContourSegments } from './contour';
 import {
