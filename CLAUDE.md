@@ -54,8 +54,8 @@ Reference these for conventions and patterns:
 
 - **Tool switching**: `src/trains/input-state-machine/tool-switcher-state-machine.ts`
 - **Train placement**: `src/trains/input-state-machine/train-kmt-state-machine.ts`
-- **Layout editing**: `src/trains/input-state-machine/layout-kmt-state-machine.ts`
-- **Station placement**: `src/stations/station-placement-state-machine.ts`
+- **Layout editing**: `layout-kmt-state-machine.ts` in the `track-layout` package (`track-layout/editing`)
+- **Station placement**: `station-placement-state-machine.ts` in the `track-layout` package (`track-layout/station-placement`)
 - **Train editor tools**: `src/train-editor/train-editor-tool-switcher.ts`
 - **Bogie editing**: `src/train-editor/bogie-kmt-state-machine.ts`
 - **Image editing**: `src/train-editor/image-edit-state-machine.ts`
