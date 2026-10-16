@@ -66,14 +66,37 @@ does not affect it.
 
 ## Deploying
 
+The repo deploys to two places, and each skips changes meant for the other:
+
+- **Cloudflare (this worker)**: Workers Builds, connected to the
+  `pmtiles-cloudflare` worker, builds only when `workers/pmtiles/` changes.
+- **Vercel (the app)**: `ignoreCommand` in `vercel.json` runs
+  `scripts/vercel-ignore-build.sh`, which skips the deployment when everything
+  since the last successful deployment is inside `workers/pmtiles/`.
+
+A commit that touches both deploys both.
+
+Workers Builds settings (worker → **Settings** → **Build**):
+
+| Setting           | Value                                    |
+| ----------------- | ---------------------------------------- |
+| Git repository    | `kinnet-studio/banana`                   |
+| Root directory    | `workers/pmtiles`                        |
+| Build command     | `bun run typecheck && bun test`          |
+| Deploy command    | `npx wrangler deploy` (default)          |
+| Build watch paths | include `workers/pmtiles/*`              |
+| Build variable    | `BUN_VERSION` = `1.4.2` (wrote the lock) |
+
+To deploy by hand instead:
+
 ```bash
 bunx wrangler login
 bun run deploy
 ```
 
-`wrangler deploy` replaces the worker's variables and bindings with the ones in
-`wrangler.toml`, so values set in the Cloudflare dashboard are overwritten. Copy
-any dashboard-only setting into `wrangler.toml` first.
+Either way, `wrangler deploy` replaces the worker's variables and bindings with
+the ones in `wrangler.toml`, so values set in the Cloudflare dashboard are
+overwritten. Copy any dashboard-only setting into `wrangler.toml` first.
 
 `bun run build` bundles the worker into `dist/` without deploying, for pasting
 into the dashboard editor.
