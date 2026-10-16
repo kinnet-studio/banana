@@ -38,6 +38,10 @@ dist
 # Editor
 .vscode-test
 
+# Wrangler (Cloudflare Workers) local state and secrets
+.wrangler/
+.dev.vars
+
 # Map tile data
 *.pmtiles
 public/tiles/
