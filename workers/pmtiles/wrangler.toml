@@ -1,0 +1,25 @@
+# Serves map.vntchang.dev: vector tiles + TileJSON from PMTiles archives, plus
+# the fonts and sprites the MapLibre style needs, all from the map-tiles bucket.
+name = "pmtiles-cloudflare"
+main = "src/index.ts"
+compatibility_date = "2024-09-02"
+minify = false
+
+[[routes]]
+pattern = "map.vntchang.dev"
+custom_domain = true
+
+[[r2_buckets]]
+# Alias used in the worker (env.BUCKET)
+binding = "BUCKET"
+bucket_name = "map-tiles"
+
+[vars]
+# Comma-separated list of origins allowed by CORS, or "*" for any origin.
+ALLOWED_ORIGINS = "*"
+# CACHE_CONTROL = "public, max-age=86400"
+# Template for the archive key in the bucket; {name} is the path before /z/x/y.
+# Defaults to "{name}.pmtiles".
+# PMTILES_PATH = "{name}.pmtiles"
+# Hostname written into TileJSON tile URLs. Defaults to the request hostname.
+# PUBLIC_HOSTNAME = "map.vntchang.dev"

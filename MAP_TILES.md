@@ -6,19 +6,28 @@ The banana app overlays a board canvas on top of a map tile layer. Tiles are vec
 
 ```
 ┌──────────────────────────────────────┐
-│  Cloudflare R2 (or any static host)  │
-│  taipei.pmtiles  (34 MB)             │
+│  Cloudflare R2 (map-tiles bucket)    │
+│  taipei/taipei.pmtiles  (34 MB)      │
+│  fonts/, sprites/                    │
 └──────────────┬───────────────────────┘
-               │ HTTP Range requests
+               │ R2 range reads
+               ▼
+┌──────────────────────────────────────┐
+│  PMTiles worker (map.vntchang.dev)   │
+│  workers/pmtiles                     │
+└──────────────┬───────────────────────┘
+               │ TileJSON, z/x/y tiles,
+               │ fonts, sprites
                ▼
 ┌──────────────────────────────────────┐
 │  Browser                             │
-│  pmtiles Protocol ─► MapLibre GL     │
+│  MapLibre GL                         │
 │  @protomaps/basemaps (LIGHT theme)   │
 └──────────────────────────────────────┘
 ```
 
-- **PMTiles** — single-file archive of vector tiles; supports random access via HTTP Range requests, so no tile server is needed.
+- **PMTiles** — single-file archive of vector tiles; supports random access, so only the bytes for a requested tile are read.
+- **PMTiles worker** — Cloudflare Worker that turns archive reads into plain `z/x/y` tiles and TileJSON, caches them at the edge, and serves the style's fonts and sprites. See [`workers/pmtiles/README.md`](workers/pmtiles/README.md).
 - **MapLibre GL** — renders vector tiles on the GPU via WebGL.
 - **@protomaps/basemaps** — provides the visual style (colors, labels, fonts).
 - **Protomaps planet builds** — pre-built OpenStreetMap vector tiles covering the entire world, published at `build.protomaps.com`.
@@ -79,9 +88,11 @@ pmtiles extract https://build.protomaps.com/20250310.pmtiles \
 
 ## Hosting
 
-The `.pmtiles` file must be hosted on a server that supports **HTTP Range requests**. Any static file host works.
+In production the archive lives in the `map-tiles` R2 bucket and is served by the PMTiles worker. Upload it to the key the app requests (`taipei/taipei.pmtiles`) as described in [`workers/pmtiles/README.md`](workers/pmtiles/README.md#bucket-contents).
 
-### Cloudflare R2 (recommended)
+MapLibre can also read a `.pmtiles` file directly with the `pmtiles://` protocol, which needs a host that supports **HTTP Range requests**. Any static file host works.
+
+### Public R2 bucket
 
 R2 has free egress (no cost for downloads).
 
@@ -116,25 +127,25 @@ R2 has free egress (no cost for downloads).
 
 ## Configuration
 
-The app reads the PMTiles URL from the `VITE_PMTILES_URL` environment variable. If not set, it defaults to the R2-hosted Taipei extract.
+The app loads tiles, fonts and sprites from the PMTiles worker at `VITE_TILES_BASE`, defaulting to `https://map.vntchang.dev`.
 
 ```bash
-# Override the tile source
-VITE_PMTILES_URL=https://your-bucket.example.com/tiles/tokyo.pmtiles bun run dev
+# Use another deployment of the worker
+VITE_TILES_BASE=https://tiles.example.com bun run dev
 ```
 
 ## Local development
 
-For offline development, place the `.pmtiles` file in `public/tiles/` and point to it locally:
+For offline development, place the `.pmtiles` file in `public/tiles/` and run `bun run dev:local`. It reads the archive with the `pmtiles://` protocol and loads fonts and sprites from `public/`:
 
 ```bash
 # Extract tiles
 pmtiles extract https://build.protomaps.com/20250310.pmtiles \
-    apps/banana/public/tiles/taipei.pmtiles \
+    public/tiles/taipei.pmtiles \
     --bbox=121.4,24.9,121.7,25.2
 
 # Use local file
-VITE_PMTILES_URL=http://localhost:5173/tiles/taipei.pmtiles bun run dev
+bun run dev:local
 ```
 
 The `public/tiles/` directory and `*.pmtiles` files are gitignored.
