@@ -12,16 +12,16 @@
         "@radix-ui/react-tooltip": "^1.2.8",
         "@tailwindcss/vite": "^4.1.18",
         "@types/three": "^0.183.1",
-        "@ue-too/animate": "^0.19.0",
-        "@ue-too/being": "^0.19.0",
-        "@ue-too/board": "^0.19.0",
-        "@ue-too/board-pixi-integration": "^0.19.0",
-        "@ue-too/board-pixi-react-integration": "^0.19.0",
-        "@ue-too/border": "^0.19.0",
-        "@ue-too/curve": "^0.19.0",
-        "@ue-too/dynamics": "^0.19.0",
-        "@ue-too/ecs": "^0.19.0",
-        "@ue-too/math": "^0.19.0",
+        "@ue-too/animate": "^0.20.0",
+        "@ue-too/being": "^0.20.0",
+        "@ue-too/board": "^0.20.0",
+        "@ue-too/board-pixi-integration": "^0.20.0",
+        "@ue-too/board-pixi-react-integration": "^0.20.0",
+        "@ue-too/border": "^0.20.0",
+        "@ue-too/curve": "^0.20.0",
+        "@ue-too/dynamics": "^0.20.0",
+        "@ue-too/ecs": "^0.20.0",
+        "@ue-too/math": "^0.20.0",
         "bezier-js": "^6.1.4",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -403,25 +403,25 @@
 
     "@types/webxr": ["@types/webxr@0.5.24", "", {}, "sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg=="],
 
-    "@ue-too/animate": ["@ue-too/animate@0.19.0", "", { "dependencies": { "@ue-too/math": "^0.19.0" } }, "sha512-nl+kKs1rTaQbuUn7/7zZUGqYZ2cz8x9t7B6tGmyB7N9uLhhhi8C+bgcz6hdVvJ2+LcIYPL+kYhSOEtBCpGVDQw=="],
+    "@ue-too/animate": ["@ue-too/animate@0.20.0", "", { "dependencies": { "@ue-too/math": "^0.20.0" } }, "sha512-w2vvtz/dQOt5eSnLiCmx2Ck5Md9ha3KeHJLxKiO7j0i1QDQIDdLmBnpzYh1HWlUJJgd9IWGIiYTlL0wErvjqYQ=="],
 
-    "@ue-too/being": ["@ue-too/being@0.19.0", "", {}, "sha512-TiAy1kQ/Gbp0IT/ge9SJW3e2p2fAwx9xQrsCpMWneDkZyarkdMQ/tjMtUaB9JAhCihWmUw5uy97H/88rEYOlrQ=="],
+    "@ue-too/being": ["@ue-too/being@0.20.0", "", {}, "sha512-TwQKnTYrgRNfq9sUkhJ2ZSr+Sn+yM59dS1pR4JOX5rPJEfm9x6UKQh5rcyZajRtRShsyij5R1KVadTmWthy5Xg=="],
 
-    "@ue-too/board": ["@ue-too/board@0.19.0", "", { "dependencies": { "@ue-too/being": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-N3cOiRG0UFrZdfz5OYwL5KChOtCqVn1BIx3v30H09CPEnfeToJRckgQTDOOMAnipSH0mAvDOAU7VN3PY0CXC2g=="],
+    "@ue-too/board": ["@ue-too/board@0.20.0", "", { "dependencies": { "@ue-too/being": "^0.20.0", "@ue-too/math": "^0.20.0" } }, "sha512-VZG5paqwaH3sCZ9bySNbLPF+8aURVm0c8vjXwY4VbSfyg7Q65ZTIqpecteJWATPb8vePEGtF2M1jM0T9QJ2h9g=="],
 
-    "@ue-too/board-pixi-integration": ["@ue-too/board-pixi-integration@0.19.0", "", { "dependencies": { "@ue-too/being": "^0.19.0", "@ue-too/board": "^0.19.0", "@ue-too/math": "^0.19.0" }, "peerDependencies": { "pixi.js": "8.20.1" } }, "sha512-i7iksM/w7f4gCDuQO1j83qV7AEFor+4POkw8AM7kHHMcbMlI+P0rHcES+qM3Ve/X8duWNieQ4LY7sYQNXk2LKw=="],
+    "@ue-too/board-pixi-integration": ["@ue-too/board-pixi-integration@0.20.0", "", { "dependencies": { "@ue-too/being": "^0.20.0", "@ue-too/board": "^0.20.0", "@ue-too/math": "^0.20.0" }, "peerDependencies": { "pixi.js": "8.20.1" } }, "sha512-AI1aaB93Rw+beWkvQV9fOU6V/ybzKIl+yi7hlcWPpDT/e9s/vQw5CPJ7VjJtgnm6KW+LsNDsIuXVLHkE/VQixA=="],
 
-    "@ue-too/board-pixi-react-integration": ["@ue-too/board-pixi-react-integration@0.19.0", "", { "dependencies": { "@ue-too/board": "^0.19.0", "@ue-too/board-pixi-integration": "^0.19.0" }, "peerDependencies": { "pixi.js": "8.20.1", "react": "^19.0.1" } }, "sha512-Dst6MoFmMDiB3+DnJVzwZ+QeZ5AvVMNOU8oN1knn5DaQVM7uS/v/LbcOydwFd6vPRJxmr0Snu0oDMQRi+vfE5A=="],
+    "@ue-too/board-pixi-react-integration": ["@ue-too/board-pixi-react-integration@0.20.0", "", { "dependencies": { "@ue-too/board": "^0.20.0", "@ue-too/board-pixi-integration": "^0.20.0" }, "peerDependencies": { "pixi.js": "8.20.1", "react": "^19.0.1" } }, "sha512-QUjklBED9is1SlB7KiXS2zwPIyn11jYrpI2x9o47BMVKjaatSlAdksb1zNkFbz25iY+gNtAwFg0w++vrYhAsTw=="],
 
-    "@ue-too/border": ["@ue-too/border@0.19.0", "", { "dependencies": { "@ue-too/math": "^0.19.0" } }, "sha512-gieWY3Ux4ApErhiYjrkZdsicXSN9SfkhbmVTjpdIGZ4wBiKfx8Khvu8cI4h1SPEfyLta/idKE4XYBosmT0L3xQ=="],
+    "@ue-too/border": ["@ue-too/border@0.20.0", "", { "dependencies": { "@ue-too/math": "^0.20.0" } }, "sha512-i4pAyamuw9J4qMNKY76WFqGzu2opAbAxtyypupT1CWm4hJbTeDwnnONBq3H2HTBIoYdKPWnIxOiuGW7HlBEojw=="],
 
-    "@ue-too/curve": ["@ue-too/curve@0.19.0", "", { "dependencies": { "@ue-too/math": "^0.19.0" } }, "sha512-npgJHT9Tzhnf0lQaE3kaEaUqsv98xbR9X8mSAmP2BKUEg9dV2cS4ZRv4zEr7cpAcfghEvL7VJEsGaRZwF+xQ0g=="],
+    "@ue-too/curve": ["@ue-too/curve@0.20.0", "", { "dependencies": { "@ue-too/math": "^0.20.0" } }, "sha512-neQWcV1gQqiThP+dQiLjvPIcK91EsL8af1h1vaO/UxSdr+joUDIKyrUSfIjtEkiDHXtM3+O04p9SM7Bg+HBltQ=="],
 
-    "@ue-too/dynamics": ["@ue-too/dynamics@0.19.0", "", { "dependencies": { "@ue-too/ecs": "^0.19.0", "@ue-too/math": "^0.19.0" } }, "sha512-16vo2787W3jEE6F7AykPkX/b0GvjbepXicqz1VTBcdv4ByjtN6IAYOvr5w5y/RGo7XMV252yOc0HM03G+tjA9A=="],
+    "@ue-too/dynamics": ["@ue-too/dynamics@0.20.0", "", { "dependencies": { "@ue-too/ecs": "^0.20.0", "@ue-too/math": "^0.20.0" } }, "sha512-WS6Y5DKVVxu/0cpTLA7Vl3zf7A1XFDL90pmpc3BRAuel+meMmuEgC+DkmHn1nNGoPgdC1GV77cR4NjzYmKUFJg=="],
 
-    "@ue-too/ecs": ["@ue-too/ecs@0.19.0", "", {}, "sha512-vXHyu7h29st9C6ZsFsIE8iVswO5IBd8DVZ0TeBk2INcinBsz4OtpHCiXqip+nxH+guLuaZQA1S27Y96Tbm55ig=="],
+    "@ue-too/ecs": ["@ue-too/ecs@0.20.0", "", {}, "sha512-uy1UjHh3gnze+5BP88QEGDKveviW/sVRqiTmbvSHrJ9i7N7HhXNJdk9PzscgR8Ld2fEgFH/uVLPnz6rBi3x58w=="],
 
-    "@ue-too/math": ["@ue-too/math@0.19.0", "", {}, "sha512-gsfIyEnEWp3XLRX+Hd7/2mPUFbkwRC7Br0K/oQess7c/aSfLVXKoCxVQSha+HHMCsva9iznpFwrlA1xGMPbOAw=="],
+    "@ue-too/math": ["@ue-too/math@0.20.0", "", {}, "sha512-OPDrW9Y23xQqNFrl/1oEscXucoY7T+kAgtMYUiOOaYeLH550u7g1eB8Zn5tBTQ55gP/w8x2ThKBavF3gPXnGWA=="],
 
     "@vitejs/plugin-react": ["@vitejs/plugin-react@5.2.0", "", { "dependencies": { "@babel/core": "^7.29.0", "@babel/plugin-transform-react-jsx-self": "^7.27.1", "@babel/plugin-transform-react-jsx-source": "^7.27.1", "@rolldown/pluginutils": "1.0.0-rc.3", "@types/babel__core": "^7.20.5", "react-refresh": "^0.18.0" }, "peerDependencies": { "vite": "^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0" } }, "sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw=="],
 
