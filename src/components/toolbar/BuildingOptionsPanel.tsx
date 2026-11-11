@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { ELEVATION } from 'track-layout';
 
 import type { BuildingPreset } from '@/buildings/types';
 import {
@@ -13,8 +12,10 @@ import {
 type BuildingOptionsPanelProps = {
     preset: BuildingPreset;
     onPresetChange: (preset: BuildingPreset) => void;
-    elevation: ELEVATION;
-    onElevationChange: (elevation: ELEVATION) => void;
+    /** Height of the building's base, in metres. */
+    elevation: number;
+    onElevationChange: (elevation: number) => void;
+    /** Height above the base, in metres. */
     height: number;
     onHeightChange: (height: number) => void;
 };
@@ -50,35 +51,25 @@ export function BuildingOptionsPanel({
                 </Select>
                 <Select
                     value={String(elevation)}
-                    onValueChange={val =>
-                        onElevationChange(Number(val) as ELEVATION)
-                    }
+                    onValueChange={val => onElevationChange(Number(val))}
                 >
                     <SelectTrigger>
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value={String(ELEVATION.GROUND)}>
-                            {t('ground')}
-                        </SelectItem>
-                        <SelectItem value={String(ELEVATION.ABOVE_1)}>
-                            {t('above1')}
-                        </SelectItem>
-                        <SelectItem value={String(ELEVATION.ABOVE_2)}>
-                            {t('above2')}
-                        </SelectItem>
-                        <SelectItem value={String(ELEVATION.ABOVE_3)}>
-                            {t('above3')}
-                        </SelectItem>
+                        <SelectItem value="0">{t('ground')}</SelectItem>
+                        <SelectItem value="10">{t('above1')}</SelectItem>
+                        <SelectItem value="20">{t('above2')}</SelectItem>
+                        <SelectItem value="30">{t('above3')}</SelectItem>
                     </SelectContent>
                 </Select>
                 <label className="flex flex-col gap-1 text-xs">
-                    {t('height')}: {height} {t('level')}
+                    {t('height')}: {height} m
                     <input
                         type="range"
-                        min={0.5}
-                        max={5}
-                        step={0.5}
+                        min={5}
+                        max={50}
+                        step={5}
                         value={height}
                         onChange={e => onHeightChange(Number(e.target.value))}
                         className="w-full"

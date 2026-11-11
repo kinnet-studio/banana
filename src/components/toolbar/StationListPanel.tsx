@@ -1,12 +1,11 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { Platform, Station } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
+import type { StationRenderSystem } from '@kinnet-studio/track-layout/pixi';
 import type { CameraRig } from '@ue-too/board';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { Platform, Station } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
-import { ELEVATION } from 'track-layout';
-import type { StationRenderSystem } from 'track-layout/pixi';
 
 import {
     Check,
@@ -261,7 +260,7 @@ export function StationListPanel({
         stationManager.createStation({
             name: 'Station',
             position: { x: pos.x, y: pos.y },
-            elevation: ELEVATION.GROUND,
+            elevation: 0, // metres
             platforms: [],
             trackSegments: [],
             joints: [],

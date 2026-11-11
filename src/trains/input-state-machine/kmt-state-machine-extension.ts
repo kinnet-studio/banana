@@ -1,3 +1,16 @@
+import { CatenaryLayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import { CurveCreationEngine } from '@kinnet-studio/track-layout/editing';
+import { DuplicateToSideStateMachine } from '@kinnet-studio/track-layout/editing';
+import type { JointDirectionStateMachine } from '@kinnet-studio/track-layout/editing';
+import {
+    LayoutContext,
+    LayoutEvents,
+    LayoutStateMachine,
+} from '@kinnet-studio/track-layout/editing';
+import { createLayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import type { DualSpinePlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
+import type { SingleSpinePlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
+import { StationPlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
 import { StateMachine } from '@ue-too/being';
 import {
     Defer,
@@ -21,19 +34,6 @@ import {
     ReadyToPanViaScrollWheelState,
     ReadyToPanViaSpaceBarState,
 } from '@ue-too/board';
-import { CatenaryLayoutStateMachine } from 'track-layout/editing';
-import { CurveCreationEngine } from 'track-layout/editing';
-import { DuplicateToSideStateMachine } from 'track-layout/editing';
-import type { JointDirectionStateMachine } from 'track-layout/editing';
-import {
-    LayoutContext,
-    LayoutEvents,
-    LayoutStateMachine,
-} from 'track-layout/editing';
-import { createLayoutStateMachine } from 'track-layout/editing';
-import type { DualSpinePlacementStateMachine } from 'track-layout/station-placement';
-import type { SingleSpinePlacementStateMachine } from 'track-layout/station-placement';
-import { StationPlacementStateMachine } from 'track-layout/station-placement';
 
 import {
     ToolSwitcherContext,

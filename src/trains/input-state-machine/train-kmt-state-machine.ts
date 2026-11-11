@@ -1,3 +1,5 @@
+import { JointDirectionPreferenceMap } from '@kinnet-studio/track-layout';
+import { TrackGraph } from '@kinnet-studio/track-layout';
 import {
     BaseContext,
     EventReactions,
@@ -17,8 +19,6 @@ import {
     convertFromWorld2Viewport,
 } from '@ue-too/board';
 import { Point, PointCal } from '@ue-too/math';
-import { JointDirectionPreferenceMap } from 'track-layout';
-import { TrackGraph } from 'track-layout';
 
 import { Formation, Train, TrainPosition } from '../formation';
 

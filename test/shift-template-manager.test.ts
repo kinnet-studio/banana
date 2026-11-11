@@ -1,5 +1,5 @@
-import { StationManager } from 'track-layout';
-import { TrackAlignedPlatformManager } from 'track-layout';
+import { StationManager } from '@kinnet-studio/track-layout';
+import { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
 
 import {
     type ShiftTemplateChangeEvent,

@@ -1,7 +1,7 @@
+import { JointDirectionPreferenceMap } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
+import type { TrackJoint } from '@kinnet-studio/track-layout';
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { JointDirectionPreferenceMap } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
-import type { TrackJoint } from 'track-layout';
 
 import { DefaultJointDirectionManager } from '../src/trains/input-state-machine/train-kmt-state-machine';
 

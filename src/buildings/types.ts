@@ -1,5 +1,4 @@
 import type { Point } from '@ue-too/math';
-import { ELEVATION } from 'track-layout';
 
 /**
  * Available building shape presets.
@@ -52,8 +51,9 @@ export const BUILDING_PRESETS: Record<BuildingPreset, Point[]> = {
 export type BuildingData = {
     position: Point;
     preset: BuildingPreset;
-    elevation: ELEVATION;
-    /** Height of the building in elevation levels (same unit as {@link ELEVATION}). */
+    /** Height of the building's base, in metres. */
+    elevation: number;
+    /** Height of the building above its base, in metres. */
     height: number;
     /** World-space vertices (preset vertices offset by position). */
     vertices: Point[];

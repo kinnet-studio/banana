@@ -1,3 +1,32 @@
+import { StationManager } from '@kinnet-studio/track-layout';
+import { TrackGraph } from '@kinnet-studio/track-layout';
+import { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import { JointDirectionPreferenceMap } from '@kinnet-studio/track-layout';
+import type { TrackSegmentWithCollision } from '@kinnet-studio/track-layout';
+import { intersectionSatisfiesVerticalClearance } from '@kinnet-studio/track-layout';
+import { CatenaryLayoutEngine } from '@kinnet-studio/track-layout/editing';
+import { createCatenaryLayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import { CurveCreationEngine } from '@kinnet-studio/track-layout/editing';
+import { DuplicateToSideEngine } from '@kinnet-studio/track-layout/editing';
+import { createDuplicateToSideStateMachine } from '@kinnet-studio/track-layout/editing';
+import { createJointDirectionStateMachine } from '@kinnet-studio/track-layout/editing';
+import { LayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import { createLayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import {
+    JointDirectionRenderSystem,
+    StationRenderSystem,
+    TrackAlignedPlatformRenderSystem,
+    TrackRenderSystem,
+    WorldRenderSystem,
+} from '@kinnet-studio/track-layout/pixi';
+import {
+    DualSpinePlacementEngine,
+    SingleSpinePlacementEngine,
+    StationPlacementEngine,
+    createDualSpinePlacementStateMachine,
+    createSingleSpinePlacementStateMachine,
+    createStationPlacementStateMachine,
+} from '@kinnet-studio/track-layout/station-placement';
 import { Animation, Animator, NumberAnimationHelper } from '@ue-too/animate';
 import {
     CameraMuxWithAnimationAndLock,
@@ -14,35 +43,6 @@ import { Point, PointCal } from '@ue-too/math';
 import { UPDATE_PRIORITY } from 'pixi.js';
 import { toast } from 'sonner';
 import Stats from 'stats.js';
-import { StationManager } from 'track-layout';
-import { TrackGraph } from 'track-layout';
-import { TrackAlignedPlatformManager } from 'track-layout';
-import { JointDirectionPreferenceMap } from 'track-layout';
-import type { TrackSegmentWithCollision } from 'track-layout';
-import { intersectionSatisfiesVerticalClearance } from 'track-layout';
-import { CatenaryLayoutEngine } from 'track-layout/editing';
-import { createCatenaryLayoutStateMachine } from 'track-layout/editing';
-import { CurveCreationEngine } from 'track-layout/editing';
-import { DuplicateToSideEngine } from 'track-layout/editing';
-import { createDuplicateToSideStateMachine } from 'track-layout/editing';
-import { createJointDirectionStateMachine } from 'track-layout/editing';
-import { LayoutStateMachine } from 'track-layout/editing';
-import { createLayoutStateMachine } from 'track-layout/editing';
-import {
-    JointDirectionRenderSystem,
-    StationRenderSystem,
-    TrackAlignedPlatformRenderSystem,
-    TrackRenderSystem,
-    WorldRenderSystem,
-} from 'track-layout/pixi';
-import {
-    DualSpinePlacementEngine,
-    SingleSpinePlacementEngine,
-    StationPlacementEngine,
-    createDualSpinePlacementStateMachine,
-    createSingleSpinePlacementStateMachine,
-    createStationPlacementStateMachine,
-} from 'track-layout/station-placement';
 
 import { BuildingManager, BuildingRenderSystem } from '@/buildings';
 import i18n from '@/i18n';
@@ -341,6 +341,8 @@ export const initApp = async (
         baseComponents.camera
     );
     const curveEngine = new CurveCreationEngine(trackGraph, windowToWorld);
+    // Raise and lower track by 10 m, one height band per step.
+    curveEngine.setElevationStep(10);
     const layoutSubStateMachine = createLayoutStateMachine(curveEngine);
     const worldRenderSystem = new WorldRenderSystem();
 

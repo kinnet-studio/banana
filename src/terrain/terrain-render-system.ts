@@ -13,6 +13,10 @@
  * @group Terrain
  */
 import {
+    DETAILED_BAND_HEIGHTS,
+    type WorldRenderSystem,
+} from '@kinnet-studio/track-layout/pixi';
+import {
     CanvasSource,
     Container,
     Graphics,
@@ -21,9 +25,6 @@ import {
     MeshSimple,
     Texture,
 } from 'pixi.js';
-import { LEVEL_HEIGHT } from 'track-layout';
-import { ELEVATION_VALUES } from 'track-layout';
-import type { WorldRenderSystem } from 'track-layout/pixi';
 
 import { extractContourSegments } from './contour';
 import {
@@ -574,8 +575,7 @@ export class TerrainRenderSystem {
         for (let bandIdx = 0; bandIdx < bandCount; bandIdx++) {
             // The elevation threshold for this band: tracks in bands below this
             // are hidden where terrain height >= this threshold.
-            const elevationEnum = ELEVATION_VALUES[bandIdx];
-            const threshold = elevationEnum * LEVEL_HEIGHT;
+            const threshold = DETAILED_BAND_HEIGHTS[bandIdx];
 
             // Skip the lowest band — nothing below it to occlude.
             if (bandIdx === 0) continue;

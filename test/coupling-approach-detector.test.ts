@@ -1,5 +1,5 @@
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { beforeEach, describe, expect, it } from 'bun:test';
-import type { TrackGraph } from 'track-layout';
 
 import { CouplingApproachDetector } from '../src/trains/coupling-approach-detector';
 import type {

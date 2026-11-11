@@ -4,11 +4,11 @@
  *
  * @module timetable/timetable-manager
  */
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { PlatformMigrationMap } from 'track-layout';
-import type { JointDirectionPreferenceMap } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { PlatformMigrationMap } from '@kinnet-studio/track-layout';
+import type { JointDirectionPreferenceMap } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import type { SignalStateEngine } from '@/signals/signal-state-engine';
 import type { Train } from '@/trains/formation';

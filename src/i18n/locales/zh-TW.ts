@@ -216,7 +216,6 @@ const zhTW = {
         above2: '地上 2',
         above3: '地上 3',
         height: '高度',
-        level: '層',
 
         // Debug Panel
         debug: '除錯',

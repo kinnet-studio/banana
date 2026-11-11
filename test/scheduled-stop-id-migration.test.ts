@@ -1,7 +1,6 @@
+import { StationManager } from '@kinnet-studio/track-layout';
+import { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
 import { describe, expect, it } from 'bun:test';
-import { StationManager } from 'track-layout';
-import { TrackAlignedPlatformManager } from 'track-layout';
-import { ELEVATION } from 'track-layout';
 
 import { ShiftTemplateManager } from '../src/timetable/shift-template-manager';
 import type { SerializedShiftTemplate } from '../src/timetable/types';
@@ -11,7 +10,7 @@ function makeStationWithIslandPlatform() {
     const id = mgr.createStation({
         name: 'A',
         position: { x: 0, y: 0 },
-        elevation: ELEVATION.GROUND,
+        elevation: 0,
         platforms: [
             {
                 id: 0,

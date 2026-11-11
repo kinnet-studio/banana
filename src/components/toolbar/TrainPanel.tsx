@@ -1,8 +1,8 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
 import { BoardCamera } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { StationManager } from 'track-layout';
 
 import { ArrowLeftRight, Crosshair, Focus, Trash2 } from '@/assets/icons';
 import { DraggablePanel } from '@/components/ui/draggable-panel';

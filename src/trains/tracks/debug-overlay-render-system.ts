@@ -1,3 +1,8 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import { findPresetByWidth } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
+import { WorldRenderSystem } from '@kinnet-studio/track-layout/pixi';
 import {
     CameraState,
     CameraZoomEventPayload,
@@ -5,11 +10,6 @@ import {
 } from '@ue-too/board';
 import { PointCal } from '@ue-too/math';
 import { Container, Graphics, Text } from 'pixi.js';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import { findPresetByWidth } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
-import { WorldRenderSystem } from 'track-layout/pixi';
 
 import type { ProximityDetector } from '@/trains/proximity-detector';
 import type { PlacedTrainEntry } from '@/trains/train-manager';

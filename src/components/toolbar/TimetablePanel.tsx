@@ -1,8 +1,8 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
 
 import { Download, Plus, Trash2, Upload, X } from '@/assets/icons';
 import { Button } from '@/components/ui/button';

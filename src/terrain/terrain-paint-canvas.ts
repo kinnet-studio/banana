@@ -11,8 +11,7 @@
  *
  * @group Terrain
  */
-import { LEVEL_HEIGHT } from 'track-layout';
-import { ELEVATION_VALUES } from 'track-layout';
+import { DETAILED_BAND_HEIGHTS } from '@kinnet-studio/track-layout/pixi';
 
 import { sampleColorRamp, sampleWaterColor } from './terrain-colors';
 import { type TerrainConfig, TerrainData } from './terrain-data';
@@ -23,9 +22,7 @@ import { type TerrainConfig, TerrainData } from './terrain-data';
 
 /** A discrete elevation level with its display color. */
 export type PaletteEntry = {
-    /** Elevation enum value (e.g. -3, -2, …, 3). */
-    elevationValue: number;
-    /** World-space height in meters (elevationValue × LEVEL_HEIGHT). */
+    /** World-space height in meters (one of the elevation band heights). */
     height: number;
     /** Display color RGB [0, 255]. */
     r: number;
@@ -36,11 +33,9 @@ export type PaletteEntry = {
 };
 
 function buildPalette(): PaletteEntry[] {
-    return ELEVATION_VALUES.map(ev => {
-        const height = ev * LEVEL_HEIGHT;
+    return DETAILED_BAND_HEIGHTS.map(height => {
         const color = sampleColorRamp(height);
         return {
-            elevationValue: ev,
             height,
             r: color.r,
             g: color.g,
@@ -50,7 +45,7 @@ function buildPalette(): PaletteEntry[] {
     });
 }
 
-/** Discrete elevation palette derived from ELEVATION_VALUES × LEVEL_HEIGHT. */
+/** Discrete elevation palette, one entry per elevation band height. */
 export const TERRAIN_PALETTE: PaletteEntry[] = buildPalette();
 
 /** Index of the ground-level (height = 0) palette entry. */

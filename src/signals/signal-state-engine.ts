@@ -9,7 +9,7 @@
  *
  * @module signals/signal-state-engine
  */
-import type { TrackGraph } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import type { TrainPosition } from '@/trains/formation';
 import type { JointDirectionManager } from '@/trains/input-state-machine/train-kmt-state-machine';

@@ -222,7 +222,6 @@ const en = {
         above2: 'Above 2',
         above3: 'Above 3',
         height: 'Height',
-        level: 'lv',
 
         // Debug Panel
         debug: 'Debug',

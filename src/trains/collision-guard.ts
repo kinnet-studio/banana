@@ -1,4 +1,4 @@
-import type { TrackGraph } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import type { TrainPosition } from './formation';
 import type { OccupancyRegistry } from './occupancy-registry';

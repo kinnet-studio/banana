@@ -1,5 +1,5 @@
+import type { TrackStyle } from '@kinnet-studio/track-layout';
 import { useTranslation } from 'react-i18next';
-import type { TrackStyle } from 'track-layout';
 
 import {
     Select,

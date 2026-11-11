@@ -9,13 +9,12 @@
  *
  * @module signals/signal-render-system
  */
-import { Container, Graphics, Sprite, Texture } from 'pixi.js';
-import type { TrackGraph } from 'track-layout';
-import { ELEVATION } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import type {
     TrackTextureRenderer,
     WorldRenderSystem,
-} from 'track-layout/pixi';
+} from '@kinnet-studio/track-layout/pixi';
+import { Container, Graphics, Sprite, Texture } from 'pixi.js';
 
 import type { BlockSignalManager } from './block-signal-manager';
 import type { SignalStateEngine } from './signal-state-engine';
@@ -240,10 +239,8 @@ export class SignalRenderSystem {
         const container = new Container();
         container.addChild(sprite);
 
-        // Determine elevation band — use GROUND as default
-        const bandIndex = this._worldRenderSystem.getElevationBandIndex(
-            ELEVATION.GROUND
-        );
+        // Determine elevation band — use ground level (0 m) as default
+        const bandIndex = this._worldRenderSystem.getElevationBandIndex(0);
 
         const key = `signal-${signal.id}`;
         this._worldRenderSystem.addToBand(key, container, bandIndex, 'onTrack');

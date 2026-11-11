@@ -1,5 +1,5 @@
+import { GAUGE_PRESETS } from '@kinnet-studio/track-layout';
 import { useTranslation } from 'react-i18next';
-import { GAUGE_PRESETS } from 'track-layout';
 
 import {
     Select,

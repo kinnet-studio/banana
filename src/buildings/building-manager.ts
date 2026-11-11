@@ -1,11 +1,10 @@
+import { GenericEntityManager } from '@kinnet-studio/track-layout';
 import {
     Observable,
     SubscriptionOptions,
     SynchronousObservable,
 } from '@ue-too/board';
 import type { Point } from '@ue-too/math';
-import { ELEVATION } from 'track-layout';
-import { GenericEntityManager } from 'track-layout';
 
 import {
     BUILDING_PRESETS,
@@ -39,15 +38,15 @@ export class BuildingManager {
      *
      * @param position - World-space centre of the building
      * @param preset - Shape preset name
-     * @param elevation - Elevation level
-     * @param height - Visual height in world units (default 4)
+     * @param elevation - Height of the building's base, in metres
+     * @param height - Height above the base, in metres (default 10)
      * @returns The entity id assigned to the building
      */
     addBuilding(
         position: Point,
         preset: BuildingPreset,
-        elevation: ELEVATION,
-        height: number = 1
+        elevation: number,
+        height: number = 10
     ): number {
         const relativeVerts = BUILDING_PRESETS[preset];
         const vertices: Point[] = relativeVerts.map(v => ({

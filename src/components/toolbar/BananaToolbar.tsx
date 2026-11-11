@@ -1,3 +1,5 @@
+import { StationManager } from '@kinnet-studio/track-layout';
+import { validateSerializedTrackData } from '@kinnet-studio/track-layout';
 import {
     useCanvasPointerDown,
     useCoordinateConversion,
@@ -11,11 +13,6 @@ import {
     useSyncExternalStore,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StationManager } from 'track-layout';
-import type { SerializedStationData } from 'track-layout';
-import { ELEVATION } from 'track-layout';
-import type { SerializedTrackData } from 'track-layout';
-import { validateSerializedTrackData } from 'track-layout';
 import { useShallow } from 'zustand/react/shallow';
 
 import {
@@ -55,8 +52,11 @@ import { useRenderSync } from '@/hooks/use-render-sync';
 import { cn } from '@/lib/utils';
 import {
     type SerializedSceneData,
+    type SerializedTrackFile,
     deserializeSceneData,
+    migrateTrackFileHeights,
     serializeSceneData,
+    serializeTrackFile,
     validateSerializedSceneData,
 } from '@/scene-serialization';
 import type { StoredCarDefinition } from '@/storage';
@@ -226,10 +226,9 @@ export function BananaToolbar({
     const [tension, setTension] = useState<string>('1.0');
     const [buildingPreset, setBuildingPreset] =
         useState<BuildingPreset>('medium');
-    const [buildingElevation, setBuildingElevation] = useState<ELEVATION>(
-        ELEVATION.ABOVE_1
-    );
-    const [buildingHeight, setBuildingHeight] = useState(1);
+    // Building heights are in metres.
+    const [buildingElevation, setBuildingElevation] = useState(10);
+    const [buildingHeight, setBuildingHeight] = useState(10);
     const [, setTrainListVersion] = useState(0);
     const [stressStartX, setStressStartX] = useState(0);
     const [stressStartY, setStressStartY] = useState(0);
@@ -315,7 +314,7 @@ export function BananaToolbar({
     useEffect(() => {
         if (!app) return;
         app.curveEngine.onElevationChange(elev => {
-            setElevation(elev != null ? String(elev) : 'N/A');
+            setElevation(elev != null ? `${elev} m` : 'N/A');
         });
         setTension(app.curveEngine.currentTension.toFixed(1));
         app.curveEngine.onTensionChange(t => {
@@ -545,11 +544,7 @@ export function BananaToolbar({
     const handleExportTracks = useCallback(() => {
         if (!app) return;
         trackEvent('export-tracks');
-        const data = {
-            ...app.trackGraph.serialize(),
-            stations: app.stationManager.serialize().stations,
-        };
-        downloadJson(`track-data-${Date.now()}.json`, data);
+        downloadJson(`track-data-${Date.now()}.json`, serializeTrackFile(app));
     }, [app]);
 
     const handleImportTracks = useCallback(() => {
@@ -565,26 +560,22 @@ export function BananaToolbar({
             useSceneStore.getState().setSceneLoading(true);
             useSceneStore.getState().setSceneLoadProgress(0);
 
-            await app.trackGraph.loadFromSerializedData(
-                parsed as SerializedTrackData,
-                {
-                    onProgress: (loaded, total) =>
-                        useSceneStore
-                            .getState()
-                            .setSceneLoadProgress(
-                                total > 0 ? loaded / total : 1
-                            ),
-                }
-            );
+            const file = migrateTrackFileHeights(parsed as SerializedTrackFile);
+
+            await app.trackGraph.loadFromSerializedData(file, {
+                onProgress: (loaded, total) =>
+                    useSceneStore
+                        .getState()
+                        .setSceneLoadProgress(total > 0 ? loaded / total : 1),
+            });
 
             // Restore stations if present in the track data
-            const obj = parsed as Record<string, unknown>;
-            if (Array.isArray(obj.stations)) {
+            if (Array.isArray(file.stations)) {
                 for (const { id } of app.stationManager.getStations()) {
                     app.stationManager.destroyStation(id);
                 }
                 const restored = StationManager.deserialize({
-                    stations: obj.stations as SerializedStationData['stations'],
+                    stations: file.stations,
                 });
                 for (const { id, station } of restored.getStations()) {
                     app.stationManager.createStationWithId(id, station);

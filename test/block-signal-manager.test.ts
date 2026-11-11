@@ -1,5 +1,5 @@
-import type { TrackGraph } from 'track-layout';
-import type { SegmentSplitInfo } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
+import type { SegmentSplitInfo } from '@kinnet-studio/track-layout';
 
 import { BlockSignalManager } from '../src/signals/block-signal-manager';
 

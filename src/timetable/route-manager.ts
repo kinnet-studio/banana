@@ -3,8 +3,8 @@
  *
  * @module timetable/route-manager
  */
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { Observable, SynchronousObservable } from '@ue-too/board';
-import type { TrackGraph } from 'track-layout';
 
 import type { Route, RouteId, SerializedRoute } from './types';
 

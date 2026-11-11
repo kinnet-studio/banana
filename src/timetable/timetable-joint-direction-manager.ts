@@ -4,8 +4,8 @@
  *
  * @module timetable/timetable-joint-direction-manager
  */
-import type { JointDirectionPreferenceMap } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
+import type { JointDirectionPreferenceMap } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import {
     DefaultJointDirectionManager,

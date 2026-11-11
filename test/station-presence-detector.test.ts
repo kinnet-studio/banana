@@ -1,7 +1,7 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { describe, expect, it } from 'bun:test';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
 
 import type { ThrottleSteps, Train } from '../src/trains/formation';
 import type { OccupancyRegistry } from '../src/trains/occupancy-registry';

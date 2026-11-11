@@ -1,5 +1,5 @@
+import { SegmentSplitInfo, TrackGraph } from '@kinnet-studio/track-layout';
 import { Point, approximately } from '@ue-too/curve';
-import { SegmentSplitInfo, TrackGraph } from 'track-layout';
 
 import { Car, TrainUnit, generateCarId, generateFormationId } from './cars';
 import {

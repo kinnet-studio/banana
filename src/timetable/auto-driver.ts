@@ -9,10 +9,10 @@
  *
  * @module timetable/auto-driver
  */
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { StopPosition } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { StopPosition } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import type { SignalStateEngine } from '@/signals/signal-state-engine';
 import type { Train, TrainPosition } from '@/trains/formation';

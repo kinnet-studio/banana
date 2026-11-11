@@ -1,5 +1,5 @@
-import type { TrackGraph } from 'track-layout';
-import type { TrackJoint } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
+import type { TrackJoint } from '@kinnet-studio/track-layout';
 
 import { TimetableJointDirectionManager } from '../src/timetable/timetable-joint-direction-manager';
 import type { RouteJointStep } from '../src/timetable/types';
