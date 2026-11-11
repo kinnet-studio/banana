@@ -1,17 +1,20 @@
-import { StationManager } from 'track-layout';
-import { TrackAlignedPlatformManager } from 'track-layout';
+import { StationManager } from '@kinnet-studio/track-layout';
+import { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
 import {
     type PlatformMigrationMap,
     computeDualSpineMidline,
-} from 'track-layout';
-import type { SerializedTrackAlignedPlatformData } from 'track-layout';
-import type { SerializedStationData } from 'track-layout';
+} from '@kinnet-studio/track-layout';
+import type { SerializedTrackAlignedPlatformData } from '@kinnet-studio/track-layout';
+import type { SerializedStationData } from '@kinnet-studio/track-layout';
 import {
     JointDirectionPreferenceMap,
     type SerializedJointDirectionPreference,
-} from 'track-layout';
-import type { SerializedTrackData } from 'track-layout';
-import { validateSerializedTrackData } from 'track-layout';
+} from '@kinnet-studio/track-layout';
+import type { SerializedTrackData } from '@kinnet-studio/track-layout';
+import {
+    levelsToMetres,
+    validateSerializedTrackData,
+} from '@kinnet-studio/track-layout';
 
 import type { SerializedPlatformBufferStore } from '@/resources';
 import type { ResourceCounts } from '@/resources';
@@ -45,7 +48,21 @@ export type SerializedResourcesV1 = {
     carCargo: SerializedCarCargo[];
 };
 
+/**
+ * Version written into scene and track files. Version 2 holds track and
+ * station heights in metres. Files without a version hold them as 10 m
+ * levels and are converted when they load.
+ */
+export const SAVE_FORMAT_VERSION = 2;
+
+/** Whether a file with this `version` holds track and station heights in levels. */
+export function holdsLevelHeights(version: unknown): boolean {
+    return typeof version !== 'number' || version < SAVE_FORMAT_VERSION;
+}
+
 export type SerializedSceneData = {
+    /** {@link SAVE_FORMAT_VERSION}. Missing in scenes saved with heights in levels. */
+    version?: number;
     tracks: SerializedTrackData;
     trains: SerializedTrainData;
     stations?: SerializedStationData;
@@ -62,6 +79,70 @@ export type SerializedSceneData = {
     formationTemplates?: FormationTemplate[];
 };
 
+/** What Export Tracks writes: the track graph and its stations. */
+export type SerializedTrackFile = SerializedTrackData & {
+    /** {@link SAVE_FORMAT_VERSION}. Missing in files saved with heights in levels. */
+    version?: number;
+    stations?: SerializedStationData['stations'];
+};
+
+export function serializeTrackFile(
+    app: BananaAppComponents
+): SerializedTrackFile {
+    return {
+        version: SAVE_FORMAT_VERSION,
+        ...app.trackGraph.serialize(),
+        stations: app.stationManager.serialize().stations,
+    };
+}
+
+/**
+ * Returns the scene with its track and station heights in metres,
+ * converting them from levels if the scene predates metres.
+ */
+export function migrateSceneHeights(
+    data: SerializedSceneData
+): SerializedSceneData {
+    if (!holdsLevelHeights(data.version)) return data;
+    const { track, stations } = levelsToMetres({
+        track: data.tracks,
+        stations: data.stations?.stations ?? [],
+    });
+    const migrated: SerializedSceneData = {
+        ...data,
+        version: SAVE_FORMAT_VERSION,
+        tracks: track,
+    };
+    if (data.stations) {
+        migrated.stations = { ...data.stations, stations };
+    }
+    return migrated;
+}
+
+/**
+ * Returns the track file with its track and station heights in metres,
+ * converting them from levels if the file predates metres.
+ */
+export function migrateTrackFileHeights(
+    data: SerializedTrackFile
+): SerializedTrackFile {
+    if (!holdsLevelHeights(data.version)) return data;
+    // The file is uploaded JSON, so `stations` may not be an array.
+    const stationList = Array.isArray(data.stations) ? data.stations : null;
+    const { track, stations } = levelsToMetres({
+        track: data,
+        stations: stationList ?? [],
+    });
+    const migrated: SerializedTrackFile = {
+        ...track,
+        version: SAVE_FORMAT_VERSION,
+    };
+    if (stationList !== null) {
+        migrated.stations = stations;
+    }
+    return migrated;
+}
+
 export function serializeSceneData(
     app: BananaAppComponents
 ): SerializedSceneData {
@@ -71,6 +152,7 @@ export function serializeSceneData(
         carCargo: app.carCargoStore.serialize(),
     };
     return {
+        version: SAVE_FORMAT_VERSION,
         tracks: app.trackGraph.serialize(),
         trains: serializeTrainData(
             app.trainManager,
@@ -95,6 +177,8 @@ export async function deserializeSceneData(
     data: SerializedSceneData,
     options?: { onProgress?: (loaded: number, total: number) => void }
 ): Promise<void> {
+    data = migrateSceneHeights(data);
+
     // Load tracks first so train positions can resolve to points (batched)
     await app.trackGraph.loadFromSerializedData(data.tracks, {
         onProgress: options?.onProgress,
@@ -278,6 +362,9 @@ export function validateSerializedSceneData(
         return { valid: false, error: 'Data must be a non-null object' };
     }
     const obj = data as Record<string, unknown>;
+    if (obj.version !== undefined && typeof obj.version !== 'number') {
+        return { valid: false, error: 'version must be a number' };
+    }
     const tracks = obj.tracks;
     const trains = obj.trains;
     const trackRes = validateSerializedTrackData(tracks);

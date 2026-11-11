@@ -1,5 +1,5 @@
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { beforeEach, describe, expect, it } from 'bun:test';
-import type { TrackGraph } from 'track-layout';
 
 import { CollisionGuard, CrossingMap } from '../src/trains/collision-guard';
 import type {

@@ -1,3 +1,14 @@
+import { CatenaryLayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import { DuplicateToSideStateMachine } from '@kinnet-studio/track-layout/editing';
+import type { JointDirectionStateMachine } from '@kinnet-studio/track-layout/editing';
+import { LayoutStateMachine } from '@kinnet-studio/track-layout/editing';
+import {
+    CurveCreationEngine,
+    createLayoutStateMachine,
+} from '@kinnet-studio/track-layout/editing';
+import type { DualSpinePlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
+import type { SingleSpinePlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
+import { StationPlacementStateMachine } from '@kinnet-studio/track-layout/station-placement';
 import {
     BaseContext,
     CreateStateType,
@@ -9,17 +20,6 @@ import {
     TemplateState,
     TemplateStateMachine,
 } from '@ue-too/being';
-import { CatenaryLayoutStateMachine } from 'track-layout/editing';
-import { DuplicateToSideStateMachine } from 'track-layout/editing';
-import type { JointDirectionStateMachine } from 'track-layout/editing';
-import { LayoutStateMachine } from 'track-layout/editing';
-import {
-    CurveCreationEngine,
-    createLayoutStateMachine,
-} from 'track-layout/editing';
-import type { DualSpinePlacementStateMachine } from 'track-layout/station-placement';
-import type { SingleSpinePlacementStateMachine } from 'track-layout/station-placement';
-import { StationPlacementStateMachine } from 'track-layout/station-placement';
 
 import { TrainPlacementStateMachine } from '.';
 

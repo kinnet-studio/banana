@@ -1,13 +1,9 @@
+import { WorldRenderSystem } from '@kinnet-studio/track-layout/pixi';
 import type { Point } from '@ue-too/math';
 import { Graphics } from 'pixi.js';
-import { LEVEL_HEIGHT } from 'track-layout';
-import { ELEVATION, ELEVATION_VALUES } from 'track-layout';
-import { WorldRenderSystem } from 'track-layout/pixi';
 
 import { BuildingManager } from './building-manager';
 import type { BuildingData } from './types';
-
-const GROUND_BAND_INDEX = ELEVATION_VALUES.indexOf(ELEVATION.GROUND as number);
 
 const ROOF_COLOR = 0x9b8365;
 const BUILDING_BORDER = 0x3a2a15;
@@ -76,7 +72,6 @@ export class BuildingRenderSystem {
 
     private _onAdd(id: number, data: BuildingData): void {
         const key = buildingKey(id);
-        const elevationValue = data.elevation as number;
 
         const bodyGraphics = new Graphics();
         drawBuilding(bodyGraphics, data.vertices);
@@ -85,7 +80,7 @@ export class BuildingRenderSystem {
         drawBuildingShadow(
             shadowGraphics,
             data.vertices,
-            elevationValue,
+            data.elevation,
             data.height,
             this._sunAngle,
             this._baseShadowLength
@@ -93,13 +88,19 @@ export class BuildingRenderSystem {
 
         this._records.set(id, { bodyGraphics, shadowGraphics, data });
 
-        const elevationLevel = this._worldRenderSystem.resolveElevationLevel(
-            elevationValue * LEVEL_HEIGHT
+        const shadowBandHeight = this._worldRenderSystem.resolveElevationLevel(
+            data.elevation
         );
 
-        this._worldRenderSystem.addShadow(key, shadowGraphics, elevationLevel);
+        this._worldRenderSystem.addShadow(
+            key,
+            shadowGraphics,
+            shadowBandHeight
+        );
 
-        const roofBandIndex = rooftopBandIndex(elevationValue, data.height);
+        const roofBandIndex = this._worldRenderSystem.getElevationBandIndex(
+            data.elevation + data.height
+        );
         this._worldRenderSystem.addToBand(
             key,
             bodyGraphics,
@@ -120,7 +121,7 @@ export class BuildingRenderSystem {
         drawBuildingShadow(
             record.shadowGraphics,
             data.vertices,
-            data.elevation as number,
+            data.elevation,
             data.height,
             this._sunAngle,
             this._baseShadowLength
@@ -130,9 +131,8 @@ export class BuildingRenderSystem {
         drawBuilding(record.bodyGraphics, data.vertices);
 
         const key = buildingKey(id);
-        const roofBand = rooftopBandIndex(
-            data.elevation as number,
-            data.height
+        const roofBand = this._worldRenderSystem.getElevationBandIndex(
+            data.elevation + data.height
         );
         // Move to correct band if elevation/height changed.
         this._worldRenderSystem.addToBand(
@@ -162,7 +162,7 @@ export class BuildingRenderSystem {
             drawBuildingShadow(
                 record.shadowGraphics,
                 record.data.vertices,
-                record.data.elevation as number,
+                record.data.elevation,
                 record.data.height,
                 this._sunAngle,
                 this._baseShadowLength
@@ -173,16 +173,6 @@ export class BuildingRenderSystem {
 
 /** Stable key for WorldRenderSystem keyed maps. */
 const buildingKey = (id: number): string => `__building__${id}`;
-
-/**
- * Compute the elevation band index for a building based on its rooftop height.
- *
- * A building with roof at level N sorts into band N so it draws above all
- * content in lower bands.
- */
-const rooftopBandIndex = (elevation: number, height: number): number => {
-    return Math.ceil(elevation + height) + GROUND_BAND_INDEX;
-};
 
 /** Trace a closed polygon path on a Graphics object (does not fill/stroke). */
 const drawPolygon = (graphics: Graphics, vertices: Point[]): void => {
@@ -214,7 +204,7 @@ const drawBuildingShadow = (
 ): void => {
     if (height <= 0) return;
 
-    const roofWorldHeight = (elevation + height) * LEVEL_HEIGHT;
+    const roofWorldHeight = elevation + height;
     const shadowLen = baseShadowLength * (roofWorldHeight / 100);
     const rad = (sunAngle * Math.PI) / 180;
     const offsetX = Math.cos(rad) * shadowLen;

@@ -221,7 +221,6 @@ const ja = {
         above2: '地上 2',
         above3: '地上 3',
         height: '高さ',
-        level: '階',
 
         // Debug Panel
         debug: 'デバッグ',

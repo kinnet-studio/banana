@@ -1,7 +1,7 @@
+import { StationManager } from '@kinnet-studio/track-layout';
+import { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { PlatformMigrationMap } from '@kinnet-studio/track-layout';
 import { describe, expect, it } from 'bun:test';
-import { StationManager } from 'track-layout';
-import { TrackAlignedPlatformManager } from 'track-layout';
-import type { PlatformMigrationMap } from 'track-layout';
 
 import { ShiftTemplateManager } from '../src/timetable/shift-template-manager';
 import type { SerializedShiftTemplate } from '../src/timetable/types';

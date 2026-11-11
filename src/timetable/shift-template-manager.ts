@@ -3,10 +3,10 @@
  *
  * @module timetable/shift-template-manager
  */
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { PlatformMigrationMap } from '@kinnet-studio/track-layout';
 import { Observable, SynchronousObservable } from '@ue-too/board';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { PlatformMigrationMap } from 'track-layout';
 
 import {
     type DayMask,

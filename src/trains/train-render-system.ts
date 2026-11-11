@@ -1,3 +1,9 @@
+import { TrackGraph } from '@kinnet-studio/track-layout';
+import {
+    TrackRenderSystem,
+    type TrackTextureRenderer,
+    WorldRenderSystem,
+} from '@kinnet-studio/track-layout/pixi';
 import {
     Assets,
     Container,
@@ -6,12 +12,6 @@ import {
     Sprite,
     Texture,
 } from 'pixi.js';
-import { TrackGraph } from 'track-layout';
-import {
-    TrackRenderSystem,
-    type TrackTextureRenderer,
-    WorldRenderSystem,
-} from 'track-layout/pixi';
 
 import type { SourceSinkTicker, TransferManager } from '@/resources';
 

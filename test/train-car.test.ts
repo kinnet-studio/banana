@@ -1,4 +1,4 @@
-import type { TrackGraph } from 'track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import { Car } from '../src/trains/cars';
 import { Formation, Train } from '../src/trains/formation';

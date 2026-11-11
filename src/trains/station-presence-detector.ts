@@ -1,7 +1,7 @@
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { Observable, SynchronousObservable } from '@ue-too/board';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
 
 import { type ThrottleSteps, isStoppedCommand } from './formation';
 import type { OccupancyRegistry } from './occupancy-registry';

@@ -1,5 +1,5 @@
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import type { Point } from '@ue-too/math';
-import type { TrackGraph } from 'track-layout';
 
 import type { CarStockManager } from './car-stock-manager';
 import {

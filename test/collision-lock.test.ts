@@ -1,5 +1,5 @@
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { describe, expect, it } from 'bun:test';
-import type { TrackGraph } from 'track-layout';
 
 import { Car } from '../src/trains/cars';
 import { Formation, Train } from '../src/trains/formation';

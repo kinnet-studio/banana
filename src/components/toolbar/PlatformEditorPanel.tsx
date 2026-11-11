@@ -1,11 +1,14 @@
+import {
+    normalizedToStop,
+    stopToNormalized,
+} from '@kinnet-studio/track-layout';
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackAlignedPlatformManager } from '@kinnet-studio/track-layout';
+import type { SpineEntry } from '@kinnet-studio/track-layout';
+import type { StopPosition, TrackDirection } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { normalizedToStop, stopToNormalized } from 'track-layout';
-import type { StationManager } from 'track-layout';
-import type { TrackAlignedPlatformManager } from 'track-layout';
-import type { SpineEntry } from 'track-layout';
-import type { StopPosition, TrackDirection } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
 
 import { Plus, Trash2 } from '@/assets/icons';
 import { Button } from '@/components/ui/button';

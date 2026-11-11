@@ -1,4 +1,7 @@
-import { DEFAULT_GAUGE_PRESET, GAUGE_PRESETS } from 'track-layout';
+import {
+    DEFAULT_GAUGE_PRESET,
+    GAUGE_PRESETS,
+} from '@kinnet-studio/track-layout';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 

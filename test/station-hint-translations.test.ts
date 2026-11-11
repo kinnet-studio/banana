@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'bun:test';
 import {
     DUAL_SPINE_HINT_KEYS,
     SINGLE_SPINE_HINT_KEYS,
-} from 'track-layout/station-placement';
+} from '@kinnet-studio/track-layout/station-placement';
+import { describe, expect, it } from 'bun:test';
 
 import en from '../src/i18n/locales/en';
 import ja from '../src/i18n/locales/ja';

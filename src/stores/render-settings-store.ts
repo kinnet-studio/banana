@@ -1,4 +1,4 @@
-import type { TrackStyle } from 'track-layout';
+import type { TrackStyle } from '@kinnet-studio/track-layout';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 

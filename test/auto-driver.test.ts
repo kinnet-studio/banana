@@ -1,5 +1,5 @@
-import type { StationManager } from 'track-layout';
-import type { TrackGraph } from 'track-layout';
+import type { StationManager } from '@kinnet-studio/track-layout';
+import type { TrackGraph } from '@kinnet-studio/track-layout';
 
 import { AutoDriver } from '../src/timetable/auto-driver';
 import type { TimetableJointDirectionManager } from '../src/timetable/timetable-joint-direction-manager';
